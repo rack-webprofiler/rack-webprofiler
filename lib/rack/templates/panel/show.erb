@@ -1,0 +1,19 @@
+<%= partial 'profiler.erb' %>
+
+<% @collection.datas.each do |name, datas| %>
+<div class="">
+  <h2><%= name %></h2>
+
+  <table>
+    <% datas[:datas].each do |k, v| %>
+    <tr>
+      <th><%= k %></th>
+      <td><%= v.inspect %></td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+<% end %>
+
+
+<a href="<%= WebProfiler::Router.url_for_profiler %>">All requests</a>

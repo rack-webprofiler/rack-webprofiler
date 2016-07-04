@@ -1,0 +1,27 @@
+; top-most EditorConfig file
+root = true
+
+; Unix-style newlines
+[*]
+end_of_line = LF
+indent_style = space
+indent_size = 2
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.rb]
+indent_style = space
+indent_size = 2
+
+[{*.css,*.scss}]
+indent_style = space
+ident_size = 4
+
+[*.js]
+indent_style = space
+ident_size = 2
+
+[*.yml]
+indent_style = space
+indent_size = 2

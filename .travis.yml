@@ -1,0 +1,8 @@
+sudo: false
+language: ruby
+rvm:
+  - 2.3.1
+before_install:
+  - "bin/ci-prepare"
+before_script:
+  - "bin/ci-test"

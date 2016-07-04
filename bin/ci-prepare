@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+gem install bundler --no-ri --no-rdoc
+
+echo ''
+echo '------------------------------------------------------------------------------------------'
+echo "Shell:           $SHELL"
+echo "PATH:            $PATH"
+echo "Ruby path:       $(which ruby)"
+echo "Ruby version:    $(ruby -v)"
+echo "Bundler path:    $(which bundle)"
+echo "Bundler version: $(bundle -v)"
+echo '------------------------------------------------------------------------------------------'
+echo ''
+
+bundle install --retry=3 --jobs $(($(nproc) + 1)) "${FLAGS[@]}"

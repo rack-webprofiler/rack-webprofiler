@@ -1,0 +1,70 @@
+<style>
+#rack-webprofiler {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+
+  background-color: #1c1f33;
+  color: #f3fcf0;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+}
+
+#rack-webprofiler * {
+  margin: 0;
+  padding: 0;
+}
+
+#rack-webprofiler .rack-webprofiler_collectors {
+  height: 40px;
+}
+
+#rack-webprofiler .rack-webprofiler_collectors > .rack-webprofiler_collector {
+  float: left;
+  padding: 0 10px;
+  border: 1px solid #282f4c;
+  height: 38px;
+  line-height: 40px;
+}
+
+#rack-webprofiler .rack-webprofiler_collectors .rack-webprofiler_collector img {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: 4px;
+}
+#rack-webprofiler .rack-webprofiler_collectors .rack-webprofiler_collector.error,
+#rack-webprofiler .rack-webprofiler_collectors .rack-webprofiler_collector.success {
+  height: 35px;
+  border-bottom-style: solid;
+  border-bottom-width: 4px;
+}
+#rack-webprofiler .rack-webprofiler_collectors .rack-webprofiler_collector.error {
+  border-bottom-color: #ff2851;
+}
+#rack-webprofiler .rack-webprofiler_collectors .rack-webprofiler_collector.success {
+  border-bottom-color: #44db5e;
+}
+</style>
+<%
+  datas = @collection.datas
+  token = @collection.token
+%>
+<div id="rack-webprofiler">
+  <div class="rack-webprofiler_collectors">
+
+  <% @collectors.each do |name, collector| %>
+    <div class="rack-webprofiler_collector rack-webprofiler_collectors_<%= name %> <%= datas[name.to_sym][:status] %>">
+    <% unless collector.icon.nil? %>
+      <img alt="" src="<%= collector.icon %>" />
+    <% end %>
+
+      <%= render_collector(collector.template, datas[name.to_sym][:datas]) %>
+      <%#= yield :tab %>
+      <a href="<%= WebProfiler::Router.url_for_profiler(token) %>">+</a>
+    </div>
+  <% end %>
+  </div>
+</div>
