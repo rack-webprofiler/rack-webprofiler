@@ -21,5 +21,5 @@ end
 
 __END__
 <%# content_for :tab do %>
-  <%= @data[:rails_version] %> | <%= @data[:rails_env] %>
+  <%= data[:rails_version] %> | <%= data[:rails_env] %>
 <%# end %>

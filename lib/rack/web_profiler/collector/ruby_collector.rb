@@ -23,5 +23,5 @@ end
 
 __END__
 <%# content_for :tab do %>
-  <%= @data[:ruby_version] %>
+  <%= data[:ruby_version] %>
 <%# end %>

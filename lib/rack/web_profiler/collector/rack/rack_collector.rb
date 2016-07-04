@@ -19,5 +19,5 @@ end
 
 __END__
 <%# content_for :tab do %>
-  <%= @data[:rack_version] %>
+  <%= data[:rack_version] %>
 <%# end %>

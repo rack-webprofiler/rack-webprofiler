@@ -19,5 +19,5 @@ end
 
 __END__
 <%# content_for :tab do %>
-  <%= (@data[:runtime] * 1000.0).round(2) %> ms
+  <%= (data[:runtime] * 1000.0).round(2) %> ms
 <%# end %>

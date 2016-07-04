@@ -9,6 +9,7 @@ module Rack
 
     collect do |request, response|
       store :request_path,    request.path
+      store :request_method,  request.request_method
       store :response_status, response.status
 
       if response.successful?
@@ -28,5 +29,5 @@ end
 
 __END__
 <%# content_for :tab do %>
-  <%= @data[:response_status] %> - <%= @data[:request_path] %>
+  <%= data[:response_status] %> | <%= data[:request_method] %> <%= data[:request_path] %>
 <%# end %>

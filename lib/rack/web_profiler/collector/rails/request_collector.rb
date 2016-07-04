@@ -37,5 +37,5 @@ end
 
 __END__
 <%# content_for :tab do %>
-  <%= @data[:request_method] %> - <%= @data[:route_name] %>
+  <%= data[:response_status] %> | <%= data[:request_method] %> <%= data[:request_path] %>
 <%# end %>
