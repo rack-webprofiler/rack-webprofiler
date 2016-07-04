@@ -1,8 +1,6 @@
-# Rack::Webprofiler
+# Rack WebProfiler
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rack/webprofiler`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A Rack profiler for web application.
 
 ## Installation
 
@@ -20,9 +18,50 @@ Or install it yourself as:
 
     $ gem install rack-webprofiler
 
+### Rack
+
+```ruby
+home = lambda { |_env|
+  [200, { "Content-Type" => "text/html" }, ["<html><body>Hello world!</body></html>"]]
+}
+
+builder = Rack::Builder.new do
+  use Rack::WebProfiler
+
+  map('/') { run home }
+end
+
+run builder
+```
+
+### Sinatra
+
+```ruby
+require "rack-webprofiler"
+
+class App < Sinatra::Base
+  use Rack::WebProfiler
+end
+```
+
+### Rails
+
+The WebProfiler is automatically enabled.
+
+
+## Configuration
+
+TODO
+
+
 ## Usage
 
-TODO: Write usage instructions here
+TODO
+
+
+## Examples
+
+See [the examples](./examples).
 
 ## Development
 
@@ -34,7 +73,17 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/nicolas-brousse/rack-webprofiler. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
+## Code Status
+
+[![Build Status](https://travis-ci.org/nicolas-brousse/rack-webprofiler.svg?branch=master)](https://travis-ci.org/nicolas-brousse/rack-webprofiler)
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+## Alternatives & comments
+
+* https://github.com/MiniProfiler/rack-mini-profiler
+* https://github.com/dawanda/rack-profiler
+
+This project is in part inspired by the [Symfony WebProfiler Bundle](https://github.com/symfony/web-profiler-bundle).

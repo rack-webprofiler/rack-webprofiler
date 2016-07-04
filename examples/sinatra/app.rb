@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "rack/profiler"
+require "rack/webprofiler"
 require "rack"
 require "sinatra"
 

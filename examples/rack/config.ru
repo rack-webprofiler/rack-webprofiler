@@ -26,7 +26,7 @@ require "rack"
 # end
 
 home = lambda { |_env|
-  ["200", { "Content-Type" => "text/html" }, [<<-'HTML'
+  [200, { "Content-Type" => "text/html" }, [<<-'HTML'
 <!DOCTYPE html>
 <html>
   <head>

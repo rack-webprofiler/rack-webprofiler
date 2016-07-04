@@ -1,8 +1,8 @@
 # Examples
 
 ```shell
-$ rackup rack/config.rb
-$ rackup sinatra/config.rb
+$ rackup rack/config.ru
+$ rackup sinatra/config.ru
 ```
 # How to create a custom collector
 
