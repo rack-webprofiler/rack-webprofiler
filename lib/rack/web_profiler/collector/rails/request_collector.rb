@@ -8,15 +8,16 @@ module Rack
     position       1
 
     collect do |request, response|
-      route, matches, request_params = [nil, nil, nil]
-
-      Rails.application.routes.router.recognize(request) do |route, matches, params|
-        route, matches, request_params = [route, matches, params]
-      end
+      route, _matches, request_params = find_route(request)
 
       store :request_path,    request.path
       store :request_method,  request.request_method
       store :request_params,  request_params || {}
+      store :request_cookies, request.cookies
+      store :request_get,     request.GET
+      store :request_post,    request.POST
+      # store :rack_env,        request.env.each { |k, v| v.to_s }
+      # puts request.env.map{ |k, v| k => v.to_s }
       store :response_status, response.status
       store :route_name,      route.nil? ? nil : route.name
 
@@ -32,6 +33,14 @@ module Rack
     template __FILE__, type: :DATA
 
     is_enabled? -> { defined? Rails }
+
+    class << self
+      def find_route(request)
+        Rails.application.routes.router.recognize(request) do |route, matches, params|
+      return [route, matches, params]
+    end
+      end
+    end
   end
 end
 

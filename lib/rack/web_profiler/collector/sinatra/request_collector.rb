@@ -10,6 +10,11 @@ module Rack
     collect do |request, response|
       store :request_path,    request.path
       store :request_method,  request.request_method
+      store :request_cookies, request.cookies
+      store :request_get,     request.GET
+      store :request_post,    request.POST
+      # store :rack_env,        request.env.each { |k, v| v.to_s }
+      # puts request.env.map{ |k, v| k => v.to_s }
       store :response_status, response.status
 
       if response.successful?

@@ -8,7 +8,8 @@ module Rack
     position       1
 
     collect do |request, response|
-      store :key, "value"
+      store :key,       "value"
+      store :backtrace, "value"
     end
 
     template __FILE__, type: :DATA

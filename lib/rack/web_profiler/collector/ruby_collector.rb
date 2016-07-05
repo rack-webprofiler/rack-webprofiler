@@ -11,13 +11,32 @@ ICON
 
     collect do |_request, _response|
       store :ruby_version,      RUBY_VERSION
+      store :ruby_patchlevel,   RUBY_PATCHLEVEL
       store :ruby_release_date, RUBY_RELEASE_DATE
       store :ruby_platform,     RUBY_PLATFORM
-      # store :gems_list,         Gem.loaded_specs.values
+      store :ruby_revision,     RUBY_REVISION
+      store :gems_list,         gems_list
       store :ruby_doc_url,      "http://www.ruby-doc.org/core-#{RUBY_VERSION}/"
     end
 
     template __FILE__, type: :DATA
+
+    class << self
+      def gems_list
+        gems = []
+
+        Gem.loaded_specs.values.each do |g|
+          gems << {
+            name:     g.name,
+            version:  g.version.to_s,
+            homepage: g.homepage,
+            summary:  g.summary,
+          }
+        end
+
+        gems
+      end
+    end
   end
 end
 
