@@ -1,5 +1,7 @@
 # Rack WebProfiler
 
+[![Join the chat at https://gitter.im/nicolas-brousse/rack-webprofiler](https://badges.gitter.im/nicolas-brousse/rack-webprofiler.svg)](https://gitter.im/nicolas-brousse/rack-webprofiler?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A Rack profiler for web application.
 
 ## Installation
