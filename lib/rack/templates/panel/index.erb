@@ -1,29 +1,31 @@
 # TODO list the 20 lastest requests
 
-<table>
-  <thead>
-    <tr>
-      <th>token</th>
-      <th>method</th>
-      <th>status</th>
-      <th>url</th>
-      <th>ip</th>
-      <th>date</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @collections.each do |r| %>
-    <tr>
-      <td><a href="<%= WebProfiler::Router.url_for_profiler(r.token) %>"><%= r.token %></a></td>
-      <td><%= r.http_method %></td>
-      <td><%= r.http_status %></td>
-      <td><%= r.url %></td>
-      <td><%= r.ip %></td>
-      <td><span title="<%= r.created_at %>"><%= r.created_at.strftime('%Y-%m-%d %H:%M:%S') %></span></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<div id="rack-webprofiler-panel">
+  <table>
+    <thead>
+      <tr>
+        <th>token</th>
+        <th>method</th>
+        <th>status</th>
+        <th>url</th>
+        <th>ip</th>
+        <th>date</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @collections.each do |r| %>
+      <tr>
+        <td><a href="<%= WebProfiler::Router.url_for_profiler(r.token) %>"><%= r.token %></a></td>
+        <td><%= r.http_method %></td>
+        <td><%= r.http_status %></td>
+        <td><%= r.url %></td>
+        <td><%= r.ip %></td>
+        <td><span title="<%= r.created_at %>"><%= r.created_at.strftime('%Y-%m-%d %H:%M:%S') %></span></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 
 
-<a href="<%= WebProfiler::Router.url_for_clean_profiler %>">Cleanup database</a>
+  <a href="<%= WebProfiler::Router.url_for_clean_profiler %>">Cleanup database</a>
+</div>

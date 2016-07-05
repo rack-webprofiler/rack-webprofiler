@@ -7,3 +7,12 @@
 body {
   margin-top: 50px;
 }
+
+#rack-webprofiler-panel a { color: #1c1f33; }
+#rack-webprofiler-panel a:hover { text-decoration: none; }
+
+#rack-webprofiler-panel table {}
+
+#rack-webprofiler-panel table th, table td { padding: .4em; }
+#rack-webprofiler-panel table th { background-color: #1c1f33; color: #f2f2f2; }
+#rack-webprofiler-panel table tr:nth-child(even) { background-color: #f2f2f2; }
