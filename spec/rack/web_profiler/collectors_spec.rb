@@ -20,7 +20,6 @@ describe Rack::WebProfiler::Collectors do
 
   it "does not allow to unregister collector that was not previously registrered" do
     class UnregisteredCollector; end
-    collectors = Rack::WebProfiler::Collectors.new
 
     expect { Rack::WebProfiler.unregister_collector "UnregisteredCollector" }.to raise_error(ArgumentError)
     expect { Rack::WebProfiler.unregister_collector UnregisteredCollector }.to raise_error(ArgumentError)

@@ -10,7 +10,9 @@ describe Rack::WebProfiler::Router do
     expect(status).to be 200
     expect(headers["X-RackWebProfiler-Url"]).not_to be nil
 
-    status, headers, _body = Rack::WebProfiler.new(app).call(Rack::MockRequest.env_for(headers["X-RackWebProfiler-Url"]))
+    status, headers, _body = Rack::WebProfiler.new(app).call(
+      Rack::MockRequest.env_for(headers["X-RackWebProfiler-Url"])
+    )
 
     expect(headers["X-RackWebProfiler-Token"]).to be nil
     expect(status).to be 200

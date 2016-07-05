@@ -62,8 +62,6 @@ module Rack
 
       # Get url to clean webprofiler.
       #
-      # @param token [String, nil]
-      #
       # @return [String]
       def url_for_clean_profiler
         "#{@request.script_name}#{BASE_PATH}/clean"
