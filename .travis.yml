@@ -2,7 +2,22 @@ sudo: false
 language: ruby
 rvm:
   - 2.3.1
-before_install:
-  - "bin/ci-prepare"
-before_script:
-  - "bin/ci-test"
+
+install:
+  - bin/ci-prepare
+
+script:
+  - time bundle exec rake spec
+  - bundle exec bundle-audit update
+  - bundle exec bundle-audit check
+
+notifications:
+  email:
+      on_success: change
+      on_failure: always
+  webhooks:
+    urls:
+      - secure: X0uF0lUgFuKAPxNWL26+RsP8SYcuxLdRwopuMpkxc0qdP972IrgVLpKnbi02zsnt7IK0LCSiknj3uV6X1aqiRPAeZwOLEScEttuA50qnth3spVFc0UmYRvs9H6OdE2ylc3iBlavptP4TJytJQiPAyfzl8DeLvkTZesPEf5Jkiw+WmGWk+al4zt8Ejq9+vHsYbBk4ty/GzVP5FgruEpmtQG3TibVo5aKRmgvJc6c+HZHkefXBGZwhmhoQpvH3rRUXp/c7c/3K1QJTI0LzO+AAjl5Jh3qP5U5JhblmCaVqFKp0eD7jhym/lTyWSodPDdZ+JoDV8S7EJhoWjMtlW5c1Q9hooax/mjCwmApGXhrMaPPqmlU6l0Io1TYV8f4MLus0WXDf2O62AFe4uD4NvrFAS1tEPx6fEJd8X9chE96h03S+SxM3Ol3d++n6latb3H9dWTN0QM0miOmwdUUKSK6iOMuiFOp1cZoM+AbvyQvMhqAHvZ3SVeL3FCRpqFt7UpFTmVaBmtxSWlByU4raD1yK6LLfJxcPoOWZg2XoqZ5OAu1GWtdE5Xgr9jnnDojMMOlpcCpIydBbhdTe6e/qsg+iVA4HBwxuiKIYbL4mXBXoTcdgwpD/mufaM9NLmJsc9WqO3n+rIkxB+msYgR6lw5Brw0ofCBm7Yw2AL+cZqXs8DzY=
+    on_success: change
+    on_failure: always
+    on_start: never
