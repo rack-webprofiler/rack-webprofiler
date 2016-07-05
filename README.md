@@ -51,8 +51,11 @@ The WebProfiler is automatically enabled.
 
 ## Configuration
 
-TODO
+You can specify the temporary directory. It is used to save the SQlite database.
 
+```ruby
+use Rack::WebProfiler, tmp_dir: File.expand_path("/tmp", __FILE__)
+```
 
 ## Usage
 
