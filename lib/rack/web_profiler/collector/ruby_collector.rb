@@ -22,6 +22,39 @@ ICON
 end
 
 __END__
-<%# content_for :tab do %>
+<% content_for :tab do %>
   <%= data[:ruby_version] %>
-<%# end %>
+<% end %>
+
+<% content_for :panel do %>
+  <h3>Ruby informations</h3>
+  <table>
+    <tr>
+      <th>Version</th>
+      <td><%= "#{data[:ruby_version]}p#{data[:ruby_patchlevel]} (#{data[:ruby_release_date]} revision #{data[:ruby_revision]}) [#{data[:ruby_platform]}]" %></td>
+    </tr>
+    <tr>
+      <th>Documentation</th>
+      <td><a href="<%= data[:ruby_doc_url] %>"><%= data[:ruby_doc_url] %></a></td>
+    </tr>
+  </table>
+
+
+  <h3>Gems</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Version</th>
+      </tr>
+    <thead>
+    <tbody>
+    <% data[:gems_list].sort!{|a,b| a[:name] <=> b[:name] }.each do |g| %>
+      <tr>
+        <td><%= g[:name] %></td>
+        <td><%= g[:version] %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

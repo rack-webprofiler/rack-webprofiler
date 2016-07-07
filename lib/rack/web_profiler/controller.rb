@@ -107,10 +107,18 @@ module Rack
       ERB.new(read_template(path)).result(binding)
     end
 
-    def render_collector(path, data)
+    def render_collector(collector, data)
       @data = data
-      return "" if path.nil?
-      ERB.new(read_template(path)).result(binding)
+      return "" if collector.nil?
+      ERB.new(read_template(collector.template)).result(binding)
+    end
+
+    def content_for(name)
+      if block_given?
+        @contents_for[name.to_sym] = Proc.new
+      else
+        @contents_for[name.to_sym].call
+      end
     end
 
     def read_template(template)

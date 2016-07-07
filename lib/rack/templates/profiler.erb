@@ -61,8 +61,8 @@
       <img alt="" src="<%= collector.icon %>" />
     <% end %>
 
-      <%= render_collector(collector.template, datas[name.to_sym][:datas]) %>
-      <%#= yield :tab %>
+      <% render_collector(collector, datas[name.to_sym][:datas]) %>
+      <%= content_for :tab %>
       <a href="<%= WebProfiler::Router.url_for_profiler(token) %>">+</a>
     </div>
   <% end %>

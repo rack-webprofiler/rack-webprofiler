@@ -18,6 +18,6 @@ module Rack
 end
 
 __END__
-<%# content_for :tab do %>
+<% content_for :tab do %>
   <%= (data[:runtime] * 1000.0).round(2) %> ms
-<%# end %>
+<% end %>
