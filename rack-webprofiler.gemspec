@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Nicolas Brousse"]
   spec.email         = ["pro@nicolas-brousse.fr"]
 
-  spec.summary       = %q{Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{Write a longer description or delete this line.}
+  spec.summary       = %q{A Rack profiler for web application.}
+  # spec.description   = %q{}
   spec.homepage      = "http://github.com/nicolas-brousse/rack-webprofiler"
   spec.license       = "MIT"
 

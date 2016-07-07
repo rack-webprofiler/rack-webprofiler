@@ -10,7 +10,8 @@ module Rack
     #
     # @param request [Rack::WebProfiler::Request]
     def initialize(request)
-      @request = request
+      @request      = request
+      @contents_for = {}
     end
 
     # List the webprofiler history.

@@ -57,7 +57,7 @@ module Rack
         body.gsub(%r{</body>}, template.result(binding) + "</body>")
       end
 
-      #
+      # Get the javascript code template to inject.
       #
       # @return [String]
       def template
