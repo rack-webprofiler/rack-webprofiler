@@ -11,6 +11,13 @@ script:
   - bundle exec bundle-audit update
   - bundle exec bundle-audit check
 
+deploy:
+  provider: rubygems
+  api_key:
+    secure: HFX7TanTGj6QEj5/XK2wnMcRM88K5bnpbfzxli7e559sfDQtW36kNomepW1NUSCDUBC1YFhQQd5xMkSfO8ogf1X1UMSlUcxv2r2FIV0fdj8fg1LcCpKh6mtrfe2hPAb4qG50ApoPbuv/y7CGODnln72oPc1hVyboMyJjXrCAFRcOjWduftpcHekiycB0FDPXkaBxmvFPxnZ0yXVynCZSPtJUeGVcDe9OKyoyfJfnFlh+F/B2+6ILOu4uWdEFC9oWuZp8Mpd1GrjEfAG1EFtUaTVilM9CEj2esDNYuQCdgeHJXSbW00i2YVq8KLyGmL1ko4r43dXL25gZsQGsEfrEcyiSX39wXvUm20CN0Uk71d8ECxtal4qSXnovYGvbPe4GUDM0iCivFiq1QT3yO8tH+ki1fktYU7mXxoBoAqyZOLGDN0LjqMPIywkxUB7uL0+5Wpq426w/2oA9IhmJYuM5sr2T4B5Q2LLd5gBCk5R4j9VZOAhpZ7+65IKlkfLZyEA0IMaXx4tuo7L4mCk3nRiqk8gF6yEAfsvDajFRSZFw4AIKeLRAuyDYj210QgR0pFfAud+ynrBK7G547ugpL+ZOSNuXrwdcemgGhFbs3qNi3Our6GxGswPH5uWYeWDRMswoFirfqy68sEgQNGjOES0YojLfbwvRRxfu3IvzlE09UA4=
+  on:
+    tags: true
+
 notifications:
   email:
       on_success: change
