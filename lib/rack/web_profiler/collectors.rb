@@ -30,11 +30,15 @@ module Rack
 
     # Add a collector.
     #
-    # @param collector_class [Class]
+    # @param collector_class [Array, Class]
     #
     # @raise [ArgumentError] if `collector_class' is not a Class or is not an instance of Rack::WebProfiler::Collector::DSL
     #   or a collector with this name is already registrered.
     def add_collector(collector_class)
+      if collector_class.is_a? Array
+        return collector_class.each { |c| add_collector(c) }
+      end
+
       unless collector_class.is_a? Class
         raise ArgumentError, "`collector_class' must be a class"
       end
@@ -58,10 +62,14 @@ module Rack
 
     # Remove a collector.
     #
-    # @param collector_class [Class]
+    # @param collector_class [Array, Class]
     #
     # @raise [ArgumentError] if `collector_class' is not a Class or if this collector is not registered.
     def remove_collector(collector_class)
+      if collector_class.is_a? Array
+        return collector_class.each { |c| remove_collector(c) }
+      end
+
       unless collector_class.is_a? Class
         raise ArgumentError, "`collector_class' must be a class"
       end
