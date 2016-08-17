@@ -10,7 +10,8 @@ module Rack
     #
     # @param request [Rack::WebProfiler::Request]
     def initialize(request)
-      @request = request
+      @request      = request
+      @contents_for = {}
     end
 
     # List the webprofiler history.
@@ -114,10 +115,12 @@ module Rack
     end
 
     def content_for(name)
+      name = name.to_sym
+
       if block_given?
-        @contents_for[name.to_sym] = Proc.new
+        @contents_for[name] = Proc.new
       else
-        @contents_for[name.to_sym].call
+        @contents_for[name].call
       end
     end
 

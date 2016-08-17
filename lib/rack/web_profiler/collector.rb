@@ -13,10 +13,10 @@ module Rack
     end
 
     module Rails
-      autoload :ActiveRecordCollector,  "rack/web_profiler/collector/rails/active_record_collector"
-      autoload :LoggerCollector,        "rack/web_profiler/collector/rails/logger_collector"
-      autoload :RailsCollector,         "rack/web_profiler/collector/rails/rails_collector"
-      autoload :RequestCollector,       "rack/web_profiler/collector/rails/request_collector"
+      autoload :ActiveRecordCollector, "rack/web_profiler/collector/rails/active_record_collector"
+      autoload :LoggerCollector,       "rack/web_profiler/collector/rails/logger_collector"
+      autoload :RailsCollector,        "rack/web_profiler/collector/rails/rails_collector"
+      autoload :RequestCollector,      "rack/web_profiler/collector/rails/request_collector"
     end
 
     module Sinatra
@@ -124,6 +124,7 @@ module Rack
       # @return [Symbol, nil]
       def status(v = nil)
         # @todo check status?
+        # raise Exception, "" unless [:success, :warning, :error].include?(v)
         @status = v.to_sym unless v.nil?
         @status
       end
