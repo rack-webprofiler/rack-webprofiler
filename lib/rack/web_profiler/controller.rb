@@ -130,7 +130,7 @@ module Rack
 
       if block_given?
         @contents_for[name] = Proc.new
-      else
+      elsif @contents_for[name].respond_to?(:call)
         @contents_for[name].call
       end
     end
