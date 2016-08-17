@@ -11,13 +11,32 @@ ICON
 
     collect do |_request, _response|
       store :ruby_version,      RUBY_VERSION
+      store :ruby_patchlevel,   RUBY_PATCHLEVEL
       store :ruby_release_date, RUBY_RELEASE_DATE
       store :ruby_platform,     RUBY_PLATFORM
-      # store :gems_list,         Gem.loaded_specs.values
+      store :ruby_revision,     RUBY_REVISION
+      store :gems_list,         gems_list
       store :ruby_doc_url,      "http://www.ruby-doc.org/core-#{RUBY_VERSION}/"
     end
 
     template __FILE__, type: :DATA
+
+    class << self
+      def gems_list
+        gems = []
+
+        Gem.loaded_specs.values.each do |g|
+          gems << {
+            name:     g.name,
+            version:  g.version.to_s,
+            homepage: g.homepage,
+            summary:  g.summary,
+          }
+        end
+
+        gems
+      end
+    end
   end
 end
 
@@ -27,34 +46,37 @@ __END__
 <% end %>
 
 <% content_for :panel do %>
-  <h3>Ruby informations</h3>
-  <table>
-    <tr>
-      <th>Version</th>
-      <td><%= "#{data[:ruby_version]}p#{data[:ruby_patchlevel]} (#{data[:ruby_release_date]} revision #{data[:ruby_revision]}) [#{data[:ruby_platform]}]" %></td>
-    </tr>
-    <tr>
-      <th>Documentation</th>
-      <td><a href="<%= data[:ruby_doc_url] %>"><%= data[:ruby_doc_url] %></a></td>
-    </tr>
-  </table>
-
-
-  <h3>Gems</h3>
-  <table>
-    <thead>
+  <div class="block">
+    <h3>Ruby informations</h3>
+    <table>
       <tr>
-        <th>Name</th>
         <th>Version</th>
+        <td><%= "#{data[:ruby_version]}p#{data[:ruby_patchlevel]} (#{data[:ruby_release_date]} revision #{data[:ruby_revision]}) [#{data[:ruby_platform]}]" %></td>
       </tr>
-    <thead>
-    <tbody>
-    <% data[:gems_list].sort!{|a,b| a[:name] <=> b[:name] }.each do |g| %>
       <tr>
-        <td><%= g[:name] %></td>
-        <td><%= g[:version] %></td>
+        <th>Documentation</th>
+        <td><a href="<%= data[:ruby_doc_url] %>"><%= data[:ruby_doc_url] %></a></td>
       </tr>
-    <% end %>
-    </tbody>
-  </table>
+    </table>
+  </div>
+
+  <div class="block">
+    <h3>Gems</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Version</th>
+        </tr>
+      <thead>
+      <tbody>
+      <% data[:gems_list].sort!{|a,b| a[:name] <=> b[:name] }.each do |g| %>
+        <tr>
+          <th><%= g[:name] %></th>
+          <td><%= g[:version] %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
 <% end %>
