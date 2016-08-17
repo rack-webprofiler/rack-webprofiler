@@ -1,21 +1,10 @@
 <%= partial 'profiler.erb' %>
 
-<div id="rack-webprofiler-panel">
-  <% @collection.datas.each do |name, datas| %>
-  <div class="">
-    <h2><%= name %></h2>
-
-    <table>
-      <% datas[:datas].each do |k, v| %>
-      <tr>
-        <th><%= k %></th>
-        <td><%= v.inspect %></td>
-      </tr>
-      <% end %>
-    </table>
-  </div>
-  <% end %>
-
-
-  <a href="<%= WebProfiler::Router.url_for_profiler %>">All requests</a>
+<%
+  datas = @collection.datas
+  token = @collection.token
+%>
+<div class="">
+  <% render_collector(@collector, datas[@collector.name.to_sym][:datas]) %>
+  <%= content_for :panel %>
 </div>

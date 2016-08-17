@@ -5,18 +5,18 @@
   datas = @collection.datas
   token = @collection.token
 %>
-<div id="rack-webprofiler">
-  <div class="rack-webprofiler_collectors">
-
+<div id="rack-webprofiler-bar" class="rack-webprofiler--long">
+  <div class="rack-webprofiler__wrapper">
   <% @collectors.each do |name, collector| %>
-    <div class="rack-webprofiler_collector rack-webprofiler_collectors_<%= name %> <%= datas[name.to_sym][:status] %>">
+    <div class="rack-webprofiler__item rack-webprofiler_collectors_<%= name %>">
     <% unless collector.icon.nil? %>
-      <img alt="" src="<%= collector.icon %>" />
+      <i class="icn"><img alt="" src="<%= collector.icon %>" /></i>
     <% end %>
 
       <% render_collector(collector, datas[name.to_sym][:datas]) %>
-      <%= content_for :tab %>
-      <a href="<%= WebProfiler::Router.url_for_profiler(token) %>">+</a>
+      <span class="rack-webprofiler__item__value"><%= content_for :tab %></span>
+      <span class="rack-webprofiler__item__status-color <%= datas[name.to_sym][:status] %>"></span>
+      <a href="<%= WebProfiler::Router.url_for_profiler(token, name) %>">+</a>
     </div>
   <% end %>
   </div>

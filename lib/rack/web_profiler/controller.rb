@@ -28,9 +28,20 @@ module Rack
       return error404 if @collection.nil?
 
       @collectors = Rack::WebProfiler.config.collectors.all
+      @collector  = nil
+
+      unless @request.params['panel'].nil?
+        @collector = @collectors[@request.params['panel'].to_sym]
+      end
+
+      if @collector.nil?
+        @collector = @collectors.values.first
+      end
+
+      @current_panel = @collector.name
 
       # @todo return json if request.content_type ask json (same for xml?)
-      # @example json {} if @request.media_type.include? "json"
+      # @example json(@collectors) if @request.media_type.include? "json"
 
       erb "panel/show.erb", layout: "panel/layout.erb"
     end

@@ -6,7 +6,24 @@
 </head>
 <body>
 
-<%= yield %>
+  <div id="profiler-page">
+    <%= partial 'panel/_sidebar.erb' %>
+
+    <main id="main">
+      <header id="header">
+        <div class="header__section">
+          <span><a href="<%= !@collection.nil? ? @collection.url : nil %>"><%= !@collection.nil? ? @collection.url : nil %></a></span>
+        </div>
+        <div class="header__section header__section--blank"></div>
+      </header>
+
+      <div id="wrapper">
+        <div class="wrapper__container">
+          <%= yield %>
+        </div>
+      </div>
+    </main>
+  </div>
 
   <script src="<%= WebProfiler::Router.url_for_asset('js/rwpt.min.js') %>"></script>
 </body>

@@ -78,10 +78,13 @@ module Rack
       # Get url for the webprofiler.
       #
       # @param token [String, nil]
+      # @param panel [String, nil]
       #
       # @return [String]
-      def url_for_profiler(token = nil)
-        "#{@request.script_name}#{BASE_PATH}/#{token}"
+      def url_for_profiler(token = nil, panel = nil)
+        query = ""
+        query = "?panel=#{panel}" unless panel.nil?
+        "#{@request.script_name}#{BASE_PATH}/#{token}#{query}"
       end
 
       # Get url to clean webprofiler.
