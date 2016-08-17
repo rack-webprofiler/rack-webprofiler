@@ -2,16 +2,12 @@
 <html>
 <head>
   <title>Rack WebProfiler</title>
-  <style>
-  <%= partial 'assets/rwpt.css' %>
-  </style>
-  <script type="text/javascript">
-  <%= partial 'assets/rwpt.js' %>
-  </script>
+  <link rel="stylesheet"  href="<%= WebProfiler::Router.url_for_asset('css/rwpt.css') %>" />
 </head>
 <body>
 
 <%= yield %>
 
+  <script src="<%= WebProfiler::Router.url_for_asset('js/rwpt.min.js') %>"></script>
 </body>
 </html>
