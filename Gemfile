@@ -15,6 +15,7 @@ group :development do
   gem "guard"
   gem "guard-sass", require: false
   gem "guard-uglify", require: false
+  gem "guard-rack", require: false
 
   gem "shotgun"
 end
