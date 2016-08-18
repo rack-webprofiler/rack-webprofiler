@@ -26,5 +26,9 @@
   </div>
 
   <script src="<%= WebProfiler::Router.url_for_asset('js/rwpt.min.js') %>"></script>
+
+  <% unless @collection.nil? %>
+    <%= partial 'profiler.erb' %>
+  <% end %>
 </body>
 </html>
