@@ -1,1 +1,11 @@
-$rack-webprofiler__item_hover_bg: #000;
+$dark_blue: #1c1f33;
+$dark_blue_light: #282f4c;
+
+$fonts: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+
+$profiler_bar_background: $dark_blue;
+$profiler_bar_border: $dark_blue_light;
+$profiler_bar__item_hover: $dark_blue_light;
+
+$profiler_panel__sidebar_background: $dark_blue;
+$profiler_panel__sidebar_item_hover: $dark_blue_light;

@@ -5,11 +5,24 @@
   position: fixed;
   left: 0;
   bottom: 0;
-  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: $fonts;
+  height: 46px;
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-osx-font-smooth: grayscale;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
 
   &.rack-webprofiler--long {
     width: 100%;
-    background-color: #1c1f33;
+    background-color: $profiler_bar_background;
   }
   .rack-webprofiler__wrapper {
     display: table;
@@ -20,15 +33,21 @@
     height: 40px;
     padding: 10px;
     position: relative;
-    background-color: #1c1f33;
-    border-top: 1px #282f4c solid;
-    border-right: 1px #282f4c solid;
+    background-color: $profiler_bar_background;
+    border-top: 1px $profiler_bar_border solid;
+    border-right: 1px $profiler_bar_border solid;
+
+    a {
+      width: 100%;
+      height: 100%;
+      display: inline-block;
+    }
   }
   .rack-webprofiler__item--has-drop {
     cursor: pointer;
   }
   .rack-webprofiler__item:hover {
-    background-color: $rack-webprofiler__item_hover_bg;
+    background-color: $profiler_bar__item_hover;
   }
   .rack-webprofiler__item:hover .rack-webprofiler__item__drop {
     display: block;
@@ -130,11 +149,6 @@
   color: #f3fcf0;
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
-}
-
-#rack-webprofiler * {
-  margin: 0;
-  padding: 0;
 }
 
 #rack-webprofiler .rack-webprofiler_collectors {
