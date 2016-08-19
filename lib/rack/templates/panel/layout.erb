@@ -2,16 +2,32 @@
 <html>
 <head>
   <title>Rack WebProfiler</title>
-  <style>
-  <%= partial 'assets/rwpt.css' %>
-  </style>
-  <script type="text/javascript">
-  <%= partial 'assets/rwpt.js' %>
-  </script>
+  <link rel="stylesheet"  href="<%= WebProfiler::Router.url_for_asset('css/rwpt.css') %>" />
 </head>
 <body>
+  <div id="rack-webprofiler">
+    <%= partial 'panel/_sidebar.erb' %>
 
-<%= yield %>
+    <main id="main">
+      <header id="header">
+        <div class="header__section">
+          <span><a href="<%= !@collection.nil? ? @collection.url : nil %>"><%= !@collection.nil? ? @collection.url : nil %></a></span>
+        </div>
+        <div class="header__section header__section--blank"></div>
+      </header>
 
+      <div id="wrapper">
+        <div class="wrapper__container">
+          <%= yield %>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="<%= WebProfiler::Router.url_for_asset('js/rwpt.min.js') %>"></script>
+
+  <% unless @collection.nil? %>
+    <%= partial 'profiler.erb' %>
+  <% end %>
 </body>
 </html>

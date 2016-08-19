@@ -3,7 +3,7 @@ module Rack
     include Rack::WebProfiler::Collector::DSL
 
     icon <<-'ICON'
-data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB1ElEQVR4XqWTTWsTURSGn3tnpqJYbbKImjaV1IVEgwqpYKNuxK0tRCku/MK/oOBv8L904we4r+10Y0FdWEKsVrAZic2kxDZNwkyOlw51cDal9IXDGYZ5nvfexSgR4TBRxMHNIYMQBEBFozTRjoepb6ikgIUzyIV7T0mVbgGAV4f1ddAWvQ2Pthlt2bTbdX7Vv1D+HrF6Dy5UHpMqlqHzB/wGfK1Cf8dMhyMjaZRlEQQ9jg+fJpMt4OYRAO2Omea7T0gXr0O3A2EAtRoAiMAg3H2Xzo4TmudAQoZPZMmMXsSdQNRiFim/rcLWJqYCbAvm5sBxQCuA6OK2A+9eRVtp0EMsNeaxlQ2tl89InS1C0I8+rlWjrXUsMNBat4u2A7SBOoFHCE0FlBbG+FC4eYd0/goMAvA8aLYiQSQyB/TxfzewtMN24NPs/aC8ymUNLN/4yeTK+zf4a5/AGYLMKRD+a2/7LQOb5hieBD5rgH+S+df4qx/h6DEYOblnoLe9xSAMd5s3YniZZKLrIM0HMyLPX4hMV0Qqs9K4OiXVQk7ccwhQIhmSkpyRPDTw/UciM7Oycn5U3IkEvK9kHNmcvi31a5dkMX8gOJa4BlxKNB9Ysh986N/5L2oi0DPAz3KGAAAAAElFTkSuQmCC
+data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+ICAgICAgICA8dGl0bGU+VHJpYW5nbGUgMTwvdGl0bGU+ICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPiAgICA8ZGVmcz48L2RlZnM+ICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9IkRlc2t0b3AtMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTcxLjAwMDAwMCwgLTEwLjAwMDAwMCkiIGZpbGw9IiM1ODU0NzMiPiAgICAgICAgICAgIDxwYXRoIGQ9Ik04MSwzMCBMNzEsMTUgTDkxLDE1IEw4MSwzMCBaIE05MSwxNCBMNzEsMTQgTDc1LDEwIEw4NywxMCBMOTEsMTQgWiIgaWQ9IlRyaWFuZ2xlLTEiPjwvcGF0aD4gICAgICAgIDwvZz4gICAgPC9nPjwvc3ZnPg==
 ICON
 
     collector_name "ruby"
@@ -41,6 +41,42 @@ ICON
 end
 
 __END__
-<%# content_for :tab do %>
+<% content_for :tab do %>
   <%= data[:ruby_version] %>
-<%# end %>
+<% end %>
+
+<% content_for :panel do %>
+  <div class="block">
+    <h3>Ruby informations</h3>
+    <table>
+      <tr>
+        <th>Version</th>
+        <td><%= "#{data[:ruby_version]}p#{data[:ruby_patchlevel]} (#{data[:ruby_release_date]} revision #{data[:ruby_revision]}) [#{data[:ruby_platform]}]" %></td>
+      </tr>
+      <tr>
+        <th>Documentation</th>
+        <td><a href="<%= data[:ruby_doc_url] %>"><%= data[:ruby_doc_url] %></a></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="block">
+    <h3>Gems</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Version</th>
+        </tr>
+      <thead>
+      <tbody>
+      <% data[:gems_list].sort!{|a,b| a[:name] <=> b[:name] }.each do |g| %>
+        <tr>
+          <th><%= g[:name] %></th>
+          <td><%= g[:version] %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

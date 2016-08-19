@@ -20,6 +20,6 @@ module Rack
 end
 
 __END__
-<%# content_for :tab do %>
+<% content_for :tab do %>
   <%= data[:sinatra_version] %> | <%= data[:sinatra_env] %>
-<%# end %>
+<% end %>

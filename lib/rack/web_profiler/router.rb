@@ -17,7 +17,7 @@ module Rack
         path     = Rack::Utils.unescape(request.path_info)
 
         # Stop process if the request path does not start
-        # by the BASE_PATH
+        # by the BASE_PATH.
         return false unless path.start_with?(BASE_PATH)
 
         path.slice!(BASE_PATH)
@@ -25,11 +25,17 @@ module Rack
         route(request, path)
       end
 
-      # Route!
+      # Route the request.
+      #
+      # @param request [Rack::WebProfiler::Request]
+      #
+      # @return [Rack::Reponse, false]
       def route(request, path)
         controller = WebProfiler::Controller.new(request)
 
-        if request.get? && path =~ %r{^\/toolbar\/([a-z0-9]*)(\/)?$}
+        if request.get? && path =~ %r{^\/assets\/(.*)(\/)?$}
+          serve_asset(Regexp.last_match(1))
+        elsif request.get? && path =~ %r{^\/toolbar\/([a-z0-9]*)(\/)?$}
           controller.show_toolbar(Regexp.last_match(1))
         elsif request.get? && path =~ %r{^\/clean(\/)?$}
           controller.delete
@@ -40,6 +46,32 @@ module Rack
         else
           false
         end
+      end
+
+      # Serve assets.
+      #
+      # @param path [String]
+      #
+      # @return [Rack::Response]
+      def serve_asset(path)
+        rf = Rack::File.new(::File.expand_path("../../templates/assets/", __FILE__))
+        request = @request.dup
+        request.env[PATH_INFO] = path
+
+        path_info = Utils.unescape(request.env[PATH_INFO])
+        clean_path_info = Utils.clean_path_info(path_info)
+
+        status, headers, body = rf.call(request.env)
+        Rack::Response.new(body, status, headers)
+      end
+
+      # Get url for asset.
+      #
+      # @param path [String]
+      #
+      # @return [String]
+      def url_for_asset(path)
+        "#{@request.script_name}#{BASE_PATH}/assets/#{path}"
       end
 
       # Get url for toobar.
@@ -54,10 +86,13 @@ module Rack
       # Get url for the webprofiler.
       #
       # @param token [String, nil]
+      # @param panel [String, nil]
       #
       # @return [String]
-      def url_for_profiler(token = nil)
-        "#{@request.script_name}#{BASE_PATH}/#{token}"
+      def url_for_profiler(token = nil, panel = nil)
+        query = ""
+        query = "?panel=#{panel}" unless panel.nil?
+        "#{@request.script_name}#{BASE_PATH}/#{token}#{query}"
       end
 
       # Get url to clean webprofiler.
