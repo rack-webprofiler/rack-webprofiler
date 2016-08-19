@@ -1,5 +1,6 @@
 @import "variables";
 @import "fonts";
+@import "normalize";
 
 #rack-webprofiler-bar {
   position: fixed;
@@ -7,6 +8,8 @@
   bottom: 0;
   font-family: $fonts;
   height: 46px;
+
+  @include normalize;
 
   * {
     -webkit-font-smoothing: antialiased;

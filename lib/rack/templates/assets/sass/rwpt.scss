@@ -1,19 +1,24 @@
-@import "normalize";
 @import "variables";
+@import "normalize";
 
 // #rack-webprofiler-bar {
 //   top: 0;
 // }
+@include normalize;
 
 body {
   // margin-top: 45px;
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
 #rack-webprofiler {
-  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+  // may be useless
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  //
 
-
-  * {
+  &, * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -moz-osx-font-smooth: grayscale;
@@ -193,41 +198,45 @@ body {
       border-bottom: 1px #26304b solid;
       -webkit-user-select: none;
               user-select: none;
-      cursor: pointer;
 
       &:hover {
         background-color: $profiler_panel__sidebar_item_hover;
       }
-    }
-    .sidebar__item.sidebar__item--blank {
-      display: block;
-    }
-    .sidebar__item .sidebar__item-inner {
-      display: table-cell;
-      vertical-align: middle;
+      &.sidebar__item--blank {
+        display: block;
 
-      a {
-        width: 100%;
-        height: 100%;
+        // &:hover {
+        //   background-color: none;
+        // }
+      }
+
+      .sidebar__item-inner {
+        display: table-cell;
+        vertical-align: middle;
+
+        a {
+          width: 100%;
+          height: 100%;
+          display: inline-block;
+        }
+        // a:hover .sidebar__item span {
+        //
+        // }
+      }
+      .icn {
         display: inline-block;
-      }
-      a:hover .sidebar__item span {
+        vertical-align: middle;
+        padding: 0px 8px;
 
+        img {
+          fill: red;
+        }
       }
-    }
-    .sidebar__item i.icn {
-      display: inline-block;
-      vertical-align: middle;
-      padding: 0px 8px;
-
-      img {
-        fill: red;
+      i, span {
+        vertical-align: middle;
+        font-weight: 600;
+        color: #f3fcf0;
       }
-    }
-    .sidebar__item span {
-      vertical-align: middle;
-      font-weight: 600;
-      color: #f3fcf0;
     }
   }
 
@@ -245,5 +254,13 @@ body {
     padding: 15px;
     border: 1px #e6e6e6 solid;
     background-color: #fff;
+
+    a {
+      color: #444;
+
+      &:hover {
+        color: #666;
+      }
+    }
   }
 }
