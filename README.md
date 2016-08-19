@@ -1,8 +1,10 @@
 # Rack WebProfiler
 
-[![Join the chat at https://gitter.im/nicolas-brousse/rack-webprofiler](https://badges.gitter.im/nicolas-brousse/rack-webprofiler.svg)](https://gitter.im/nicolas-brousse/rack-webprofiler?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 A Rack profiler for web application.
+
+[![Version         ](http://img.shields.io/gem/v/rack-webprofiler.svg)                               ](https://rubygems.org/gems/rack-webprofiler)
+[![Travis CI       ](http://img.shields.io/travis/nicolas-brousse/rack-webprofiler/master.svg)           ](https://travis-ci.org/nicolas-brousse/rack-webprofiler)
+[![Gitter         ](https://img.shields.io/gitter/room/nicolas-brousse/rack-webprofiler.svg)       ](https://gitter.im/nicolas-brousse/rack-webprofiler)
 
 ## Installation
 
@@ -63,6 +65,8 @@ use Rack::WebProfiler, tmp_dir: File.expand_path("/tmp", __FILE__)
 
 TODO
 
+HTTP headers `X-RackWebProfiler-Token` `X-RackWebProfiler-Url`.
+
 
 ## Examples
 
@@ -79,10 +83,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/nicolas-brousse/rack-webprofiler. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
-## Code Status
-
-[![Build Status](https://travis-ci.org/nicolas-brousse/rack-webprofiler.svg?branch=master)](https://travis-ci.org/nicolas-brousse/rack-webprofiler)
 
 ## License
 

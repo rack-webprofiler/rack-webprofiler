@@ -1,13 +1,38 @@
 require "spec_helper"
 
 describe Rack::WebProfiler::Collectors do
-  it "register a collector corectly" do
+  it "register and unregister collectors corectly" do
+    collector_list = {
+      time: Rack::WebProfiler::Collector::TimeCollector,
+      rack: Rack::WebProfiler::Collector::Rack::RackCollector,
+      ruby: Rack::WebProfiler::Collector::RubyCollector,
+    }
     collectors = Rack::WebProfiler::Collectors.new
-    collectors.add_collector Rack::WebProfiler::Collector::TimeCollector
 
-    definition = collectors.all[:time]
-    expect(definition).to be_a(Rack::WebProfiler::Collector::Definition)
-    expect(definition.klass).to be(Rack::WebProfiler::Collector::TimeCollector)
+    # add
+    collectors.add_collector Rack::WebProfiler::Collector::TimeCollector
+    collectors.add_collector [
+      Rack::WebProfiler::Collector::Rack::RackCollector,
+      Rack::WebProfiler::Collector::RubyCollector,
+    ]
+
+    collector_list.each do |name, klass|
+      definition = collectors.all[name.to_sym]
+      expect(definition).to be_a(Rack::WebProfiler::Collector::Definition)
+      expect(definition.klass).to be(klass)
+    end
+
+    # remove
+    collectors.remove_collector Rack::WebProfiler::Collector::TimeCollector
+    collectors.remove_collector [
+      Rack::WebProfiler::Collector::Rack::RackCollector,
+      Rack::WebProfiler::Collector::RubyCollector,
+    ]
+
+    collector_list.each do |name, klass|
+      definition = collectors.all[name.to_sym]
+      expect(definition).to be_nil
+    end
   end
 
   it "does not allow to register twice the same collector" do
@@ -20,7 +45,6 @@ describe Rack::WebProfiler::Collectors do
 
   it "does not allow to unregister collector that was not previously registrered" do
     class UnregisteredCollector; end
-    collectors = Rack::WebProfiler::Collectors.new
 
     expect { Rack::WebProfiler.unregister_collector "UnregisteredCollector" }.to raise_error(ArgumentError)
     expect { Rack::WebProfiler.unregister_collector UnregisteredCollector }.to raise_error(ArgumentError)

@@ -4,6 +4,8 @@
 $ rackup rack/config.ru
 $ rackup sinatra/config.ru
 ```
+
+
 # How to create a custom collector
 
 ## What is a collector

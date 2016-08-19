@@ -18,4 +18,5 @@ group :development do
   gem "guard-rack", require: false
 
   gem "shotgun"
+  gem "pry"
 end
