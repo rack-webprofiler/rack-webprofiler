@@ -89,7 +89,7 @@ module Rack
 
         def create_record!
           @record ||= WebProfiler::Model::CollectionRecord.create({
-            url:           @request.path,
+            url:           @request.fullpath,
             ip:            @request.ip,
             http_method:   @request.request_method,
             http_status:   @response.status,
