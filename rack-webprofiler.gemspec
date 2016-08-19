@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Nicolas Brousse"]
   spec.email         = ["pro@nicolas-brousse.fr"]
 
-  spec.summary       = %q{A Rack profiler for web application.}
+  spec.summary       = %q{A Rack profiler for web applications.}
   # spec.description   = %q{}
   spec.homepage      = "http://github.com/nicolas-brousse/rack-webprofiler"
   spec.license       = "MIT"
@@ -22,7 +22,12 @@ Gem::Specification.new do |spec|
     # raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
   end
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.files = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(bin|test|spec|features|examples)/}) \
+    || f.match(%r{^(Guardfile|Gemfile|Rakefile)$}) \
+    || f.match(%r{^(\..*)$})
+  end
+
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
