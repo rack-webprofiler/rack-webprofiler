@@ -37,6 +37,10 @@ module Rack
         response
       end
 
+      def process_exception(request)
+        process(request, [], 500, {})
+      end
+
       private
 
       # Collect

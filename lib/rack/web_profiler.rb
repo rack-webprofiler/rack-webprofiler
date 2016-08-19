@@ -48,21 +48,33 @@ module Rack
     #
     # @return [Array]
     def call(env)
-      request = WebProfiler::Request.new(env)
-      request.start_runtime!
+      begin
+        request = WebProfiler::Request.new(env)
+        request.start_runtime!
 
-      response = WebProfiler::Router.response_for(request)
-      return response.finish if response.is_a? Rack::Response
+        response = WebProfiler::Router.response_for(request)
+        return response.finish if response.is_a? Rack::Response
 
-      # begin
-      status, headers, body = @app.call(env)
-      # rescue Exception => e
-      #   raise e
-      # end
+        status, headers, body = @app.call(env)
+      rescue Exception => e
+        process(request, body, status, headers, e)
+        raise e
+      end
 
+      process(request, body, status, headers)
+    end
+
+    private
+
+    def process(request, body, status, headers, exception = nil)
       request.save_runtime!
 
-      WebProfiler::Engine.process(request, body, status, headers).finish
+      unless exception.nil?
+        request.save_exception(exception)
+        WebProfiler::Engine.process_exception(request).finish
+      else
+        WebProfiler::Engine.process(request, body, status, headers).finish
+      end
     end
   end
 end
