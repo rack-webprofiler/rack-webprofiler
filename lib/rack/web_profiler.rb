@@ -38,8 +38,9 @@ module Rack
     # @param app [Proc]
     def initialize(app, tmp_dir: nil)
       @app = app
-      # WebProfiler.config(&Proc.new) if block_given?
+
       WebProfiler.config.tmp_dir = tmp_dir unless tmp_dir.nil?
+      WebProfiler.config(&Proc.new) if block_given?
     end
 
     # Call
