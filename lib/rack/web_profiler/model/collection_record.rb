@@ -5,6 +5,7 @@ module Rack
     plugin :schema
     plugin :hook_class_methods
     plugin :serialization
+    plugin :json_serializer
     plugin :timestamps
 
     # Attributes:

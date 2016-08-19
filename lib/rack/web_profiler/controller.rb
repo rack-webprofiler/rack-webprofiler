@@ -19,6 +19,9 @@ module Rack
       @collections = Rack::WebProfiler::Model::CollectionRecord.order(Sequel.desc(:created_at))
                                                             .limit(20)
 
+      if !@request.env["HTTP_ACCEPT"].nil? && @request.env["HTTP_ACCEPT"].include?("json")
+        return json(@collections, 200, {only: [:token, :http_method, :http_status, :url, :ip]})
+      end
       erb "panel/index.erb", layout: "panel/layout.erb"
     end
 
@@ -40,9 +43,9 @@ module Rack
 
       @current_panel = @collector.name
 
-      # @todo return json if request.content_type ask json (same for xml?)
-      # @example json(@collectors) if @request.media_type.include? "json"
-
+      if !@request.env["HTTP_ACCEPT"].nil? && @request.env["HTTP_ACCEPT"].include?("json")
+        return json(@collection)
+      end
       erb "panel/show.erb", layout: "panel/layout.erb"
     end
 
@@ -98,10 +101,11 @@ module Rack
     # Render a JSON response from an Array or a Hash.
     #
     # @param data [Array, Hash] Data
+    # @param data [Hash]
     #
     # @return [Rack::Response]
-    def json(data = {})
-      Rack::Response.new(data.to_json, 200, {
+    def json(data = {}, status = 200, opts = {})
+      Rack::Response.new(data.send(:to_json, opts), status, {
         "Content-Type" => "application/json",
       })
     end
