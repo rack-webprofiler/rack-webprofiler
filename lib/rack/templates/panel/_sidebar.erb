@@ -18,7 +18,7 @@
         <i class="icn">
           <% unless collector.icon.nil? %><img alt="" src="<%= collector.icon %>" /><% end %>
         </i>
-        <span><%= collector.name %></span>
+        <span><%= collector.name.capitalize.gsub(/_/, ' ') %></span>
       </a>
     </div>
   </div>

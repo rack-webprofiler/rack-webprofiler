@@ -28,17 +28,31 @@ body {
     text-decoration: none;
   }
 
-  .block {
-    margin-bottom: 35px;
-  }
-  .block h1 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 0;
     margin-bottom: 25px;
     text-align: left;
     text-transform: none;
-    font-family: "Open Sans";
     font-weight: 700;
-    font-size: 1.125em;
     color: #1c1f33;
+  }
+  h1 {
+    font-size: 1.5em;
+  }
+  h2 {
+    font-size: 1.25em;
+  }
+  h3 {
+    font-size: 1.125em;
+  }
+
+  .block {
+    margin-bottom: 35px;
   }
 
   .block table {
@@ -51,6 +65,10 @@ body {
     padding: 6px 9px;
     border: 1px #d8d8d8 solid;
     font-size: 0.75em;
+    word-break: break-all;
+  }
+  .block table th:first-child {
+    width: 20%;
   }
   .block table th:first-child,
   .block table td:first-child {
@@ -69,7 +87,6 @@ body {
     border-bottom-width: 0;
   }
   .block table th {
-    // width: 20%;
     background-color: #ececec;
     text-align: left;
     font-weight: 400;
@@ -148,14 +165,14 @@ body {
 
   #main {
     overflow-y: auto;
-    width: calc(100% - 162px);
+    width: calc(100% - #{$profiler_panel__sidebar_width});
     height: 100%;
     float: left;
   }
 
   // Sidebar
   #sidebar {
-    width: 162px;
+    width: $profiler_panel__sidebar_width;
     height: 100%;
     float: left;
     background-color: $profiler_panel__sidebar_background;
