@@ -17,7 +17,7 @@ module Rack
         path     = Rack::Utils.unescape(request.path_info)
 
         # Stop process if the request path does not start
-        # by the BASE_PATH
+        # by the BASE_PATH.
         return false unless path.start_with?(BASE_PATH)
 
         path.slice!(BASE_PATH)
@@ -25,7 +25,11 @@ module Rack
         route(request, path)
       end
 
-      # Route!
+      # Route the request.
+      #
+      # @param request [Rack::WebProfiler::Request]
+      #
+      # @return [Rack::Reponse, false]
       def route(request, path)
         controller = WebProfiler::Controller.new(request)
 
@@ -45,6 +49,10 @@ module Rack
       end
 
       # Serve assets.
+      #
+      # @param path [String]
+      #
+      # @return [Rack::Response]
       def serve_asset(path)
         rf = Rack::File.new(::File.expand_path("../../templates/assets/", __FILE__))
         request = @request.dup
