@@ -24,8 +24,13 @@
   </div>
   <% end %>
 <% else %>
-
-  <a href="<%= WebProfiler::Router.url_for_clean_profiler %>">Cleanup database</a>
-
+  <div class="sidebar__item">
+    <div class="sidebar__item-inner">
+      <a href="<%= WebProfiler::Router.url_for_clean_profiler %>">
+        <i class="icn"></i>
+        <span>Cleanup database</span>
+      </a>
+    </div>
+  </div>
 <% end %>
 </aside>
