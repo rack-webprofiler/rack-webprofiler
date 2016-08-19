@@ -22,7 +22,7 @@ module Rack
         response = Rack::Response.new([], status, headers)
 
         response.header["X-RackWebProfiler-Token"] = @token
-        response.header["X-RackWebProfiler-Url"]   = @url
+        response.header["X-RackWebProfiler-Url"]   = WebProfiler::Router.url_for_profiler(record.token)
 
         if defined? Rails and body.is_a? ActionDispatch::Response::RackBody
           body = body.body

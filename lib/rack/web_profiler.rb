@@ -57,9 +57,9 @@ module Rack
         return response.finish if response.is_a? Rack::Response
 
         status, headers, body = @app.call(env)
-      rescue Exception => e
+      rescue => e
         process(request, body, status, headers, e)
-        raise e
+        raise
       end
 
       process(request, body, status, headers)
