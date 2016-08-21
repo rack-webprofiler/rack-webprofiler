@@ -1,4 +1,5 @@
 require "erb"
+require "rouge"
 
 module Rack
   class WebProfiler
@@ -107,6 +108,29 @@ module Rack
           else
             ::ERB::Util.html_escape(obj.inspect)
           end
+        end
+
+        #
+        def highlight(code: nil, language: nil)
+          language = language.to_sym if language.is_a? String
+
+          case language
+          when :ruby
+            lexer = Rouge::Lexers::Ruby.new
+          when :json
+            lexer = Rouge::Lexers::Jsonnet.new
+          when :xml
+            lexer = Rouge::Lexers::XML.new
+          else
+            lexer = Rouge::Lexers::PlainText.new
+          end
+
+          code = capture(&Proc.new) if block_given?
+
+          formatter = Rouge::Formatters::HTML.new
+          formatter = Rouge::Formatters::HTMLPygments.new(formatter, css_class='highlight')
+
+          "<div class=\"highlight\">#{formatter.format(lexer.lex(code))}</div>"
         end
 
         def capture(&block)

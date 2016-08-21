@@ -148,7 +148,7 @@ __END__
   <div class="block">
     <h3>Request content</h3>
     <% unless data(:request_body).nil? %>
-    <%=h data(:request_body) %>
+    <%=highlight code: data(:request_body) %>
     <% else %>
     <p><span class="text__no-value">No request content</span></p>
     <% end %>
