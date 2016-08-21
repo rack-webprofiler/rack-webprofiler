@@ -1,4 +1,4 @@
-<div id="rwpt<%= @token %>" class="rwpt-toolbar" style="display: none"></div>
+<div id="rwpt<%=h @token %>" class="rwpt-toolbar" style="display: none"></div>
 <script>
     /*<![CDATA[*/
     APjs = (function() {
@@ -92,7 +92,7 @@
 <script>
     /*<![CDATA[*/
     (function() {
-        APjs.load('rwpt<%= @token %>', '<%= @url %>', function(xhr, el) {
+        APjs.load('rwpt<%=h @token %>', '<%= @url %>', function(xhr, el) {
             el.style.display = 'block';
             return;
 
@@ -101,13 +101,13 @@
                 return;
             }
             if (APjs.getPreference('toolbar/displayState') == 'none') {
-                document.getElementById('rwptToolbarMainContent-<%= @token %>').style.display = 'none';
-                document.getElementById('rwptToolbarClearer-<%= @token %>').style.display = 'none';
-                document.getElementById('rwptMiniToolbar-<%= @token %>').style.display = 'block';
+                document.getElementById('rwptToolbarMainContent-<%=h @token %>').style.display = 'none';
+                document.getElementById('rwptToolbarClearer-<%=h @token %>').style.display = 'none';
+                document.getElementById('rwptMiniToolbar-<%=h @token %>').style.display = 'block';
             } else {
-                document.getElementById('rwptToolbarMainContent-<%= @token %>').style.display = 'block';
-                document.getElementById('rwptToolbarClearer-<%= @token %>').style.display = 'block';
-                document.getElementById('rwptMiniToolbar-<%= @token %>').style.display = 'none';
+                document.getElementById('rwptToolbarMainContent-<%=h @token %>').style.display = 'block';
+                document.getElementById('rwptToolbarClearer-<%=h @token %>').style.display = 'block';
+                document.getElementById('rwptMiniToolbar-<%=h @token %>').style.display = 'none';
             }
         }, function(xhr) {
             if (xhr.status !== 0) {

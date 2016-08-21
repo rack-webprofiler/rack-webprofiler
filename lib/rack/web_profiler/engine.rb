@@ -70,7 +70,7 @@ module Rack
       #
       # @return [String]
       def template
-        @template ||= ERB.new(::File.read(::File.expand_path("../../templates/async.erb", __FILE__)))
+        @template ||= WebProfiler::View.new("async.erb")
       end
 
       class Processor
