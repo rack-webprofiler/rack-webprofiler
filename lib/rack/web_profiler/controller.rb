@@ -15,6 +15,8 @@ module Rack
     end
 
     # List the webprofiler history.
+    #
+    # @return [Rack::Response]
     def index
       @collections = Rack::WebProfiler::Model::CollectionRecord.order(Sequel.desc(:created_at))
                                                             .limit(20)
@@ -26,6 +28,10 @@ module Rack
     end
 
     # Show the webprofiler panel.
+    #
+    # @param token [String] The collection token
+    #
+    # @return [Rack::Response]
     def show(token)
       @collection = Rack::WebProfiler::Model::CollectionRecord[token: token]
       return error404 if @collection.nil?
@@ -49,7 +55,11 @@ module Rack
       erb "panel/show.erb", layout: "panel/layout.erb"
     end
 
-    # Print the webprofiler toolbar
+    # Print the webprofiler toolbar.
+    #
+    # @param token [String] The collection token
+    #
+    # @return [Rack::Response]
     def show_toolbar(token)
       @collection = Rack::WebProfiler::Model::CollectionRecord[token: token]
       return erb nil, status: 404 if @collection.nil?
@@ -62,6 +72,8 @@ module Rack
     end
 
     # Clean the webprofiler.
+    #
+    # @return [Rack::Response]
     def delete
       Rack::WebProfiler::Model.clean
 
@@ -79,8 +91,13 @@ module Rack
     # Render a HTML reponse from an ERB template.
     #
     # @param path [String] Path to the ERB template
+    # @option layout [String, nil] Path to the ERB layout
+    # @option variables [Hash, nil] List of variables to the view
+    # @option status [Integer] HTTP status code
     #
     # @return [Rack::Response]
+    #
+    # @private
     def erb(path, layout: nil, variables: nil, status: 200)
       v = WebProfiler::View.new(path, layout: layout)
 
@@ -94,9 +111,12 @@ module Rack
     # Render a JSON response from an Array or a Hash.
     #
     # @param data [Array, Hash] Data
-    # @param data [Hash]
+    # @param status [Integer]
+    # @param opts [Hash]
     #
     # @return [Rack::Response]
+    #
+    # @private
     def json(data = {}, status = 200, opts = {})
       Rack::Response.new(data.send(:to_json, opts), status, {
         "Content-Type" => "application/json",

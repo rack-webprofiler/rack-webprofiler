@@ -2,7 +2,7 @@ module Rack
   #
   class WebProfiler::Engine
     class << self
-      # Process
+      # Process request.
       #
       # @param request [Rack::WebProfiler::Request]
       # @param body
@@ -37,6 +37,11 @@ module Rack
         response
       end
 
+      # Process an exception.
+      #
+      # @param request [Rack::WebProfiler::Request]
+      #
+      # @return [Rack::Response]
       def process_exception(request)
         process(request, [], 500, {})
       end
@@ -45,8 +50,8 @@ module Rack
 
       # Collect
       #
-      # @param request
-      # @param response
+      # @param request [Rack::WebProfiler::Request]
+      # @param response [Rack::Response]
       def collect!(request, response)
         processor = Processor.new(request, response)
         processor.save!

@@ -68,6 +68,15 @@ module Rack
 
     private
 
+    # Process the request.
+    #
+    # @param request [Rack::WebProfiler::Request]
+    # @param body
+    # @param status [Integer]
+    # @param headers [Hash]
+    # @param exception [Exception, nil]
+    #
+    # @return [Rack::Response]
     def process(request, body, status, headers, exception = nil)
       request.save_runtime!
 
