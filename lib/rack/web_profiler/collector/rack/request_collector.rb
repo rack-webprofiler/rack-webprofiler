@@ -18,11 +18,11 @@ ICON
       store :request_cookies, request.cookies
       store :request_get,     request.GET
       store :request_post,    get_request_post(request)
-      store :request_session, request.session
+      store :request_session, hash_to_s(request.session)
       store :request_cookies, request.cookies
       store :request_body,    get_request_body(request)
 
-      store :rack_env, {} # request.env.each { |k, v| v.inspect }
+      store :rack_env, hash_to_s(request.env)
 
       store :response_status,  response.status
       store :response_headers, response.headers
@@ -37,8 +37,6 @@ ICON
     end
 
     template __FILE__, type: :DATA
-
-    is_enabled? -> { defined?(Rack) && !defined?(Rails) && !defined?(Sinatra) }
 
     class << self
       # Get request headers.
@@ -57,8 +55,13 @@ ICON
       end
 
       def get_request_body(request)
-        return nil if request.body.nil?
-        request.body.gets
+        return nil if request.body.nil? || request.get?
+        body = request.body.dup
+        body.read
+      end
+
+      def hash_to_s(hash)
+        hash.collect {|k,v| [k, v.to_s]}
       end
     end
   end
