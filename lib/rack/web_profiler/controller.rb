@@ -21,6 +21,7 @@ module Rack
                                                             .limit(20)
 
       return json(@collections, 200, {only: [:token, :http_method, :http_status, :url, :ip]}) if prefer_json?
+      return json(@collections, to_json_opts: {only: [:token, :http_method, :http_status, :url, :ip]}) if prefer_json?
       erb "panel/index.erb", layout: "panel/layout.erb"
     end
 
@@ -141,7 +142,7 @@ module Rack
     # @return [Rack::Response]
     #
     # @private
-    def json(data = {}, status = 200, opts = {})
+    def json(data = {}, status: 200, to_json_opts: {})
       Rack::Response.new(data.send(:to_json, opts), status, {
         "Content-Type" => "application/json",
       })

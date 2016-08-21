@@ -6,7 +6,7 @@
 <% @collectors.each do |name, collector| %>
   <% if collector_has_tab?(collector, @collection) %>
     <% status = collector_status(collector, @collection) %>
-    <div class="rack-webprofiler__item rack-webprofiler_collectors_<%=h name %>">
+    <div class="rack-webprofiler__item rack-webprofiler_collectors_<%=h name.to_s %>">
     <% if collector_has_panel?(collector, @collection) %>
       <a href="<%=h WebProfiler::Router.url_for_profiler(@collection.token, name) %>">
     <% end %>
@@ -14,7 +14,6 @@
         <i class="icn"><img alt="" src="<%=h collector.icon %>" /></i>
       <% end %>
         <span class="rack-webprofiler__item__value">
-          <%#= collector.render_tab(@collection) %>
           <%= collector_tab(collector, @collection) %>
         </span>
         <span class="rack-webprofiler__item__status-color <%=h status.to_s %>"></span>

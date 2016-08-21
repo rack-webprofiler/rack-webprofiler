@@ -21,7 +21,6 @@
   <% end %>
 <% end %>
 
-<div class="">
-  <%#= @collector.render_panel(@collection) %>
+<div class="rack-webprofiler_collectors_<%=h @collector.name.to_s %>">
   <%= collector_panel(@collector, @collection) %>
 </div>
