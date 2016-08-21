@@ -6,6 +6,7 @@ module Rack
   class WebProfiler::Collector
     autoload :RubyCollector, "rack/web_profiler/collector/ruby_collector"
     autoload :TimeCollector, "rack/web_profiler/collector/time_collector"
+    autoload :View, "rack/web_profiler/collector/view"
 
     module Rack
       autoload :RackCollector,    "rack/web_profiler/collector/rack/rack_collector"
