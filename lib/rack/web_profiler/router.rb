@@ -56,7 +56,7 @@ module Rack
       def serve_asset(path)
         rf = Rack::File.new(::File.expand_path("../../templates/assets/", __FILE__))
         request = @request.dup
-        request.env[PATH_INFO] = path
+        request.env[PATH_INFO] = "/#{path}"
 
         path_info = Utils.unescape(request.env[PATH_INFO])
         clean_path_info = Utils.clean_path_info(path_info)

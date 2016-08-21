@@ -10,8 +10,7 @@ module Rack
     #
     # @param request [Rack::WebProfiler::Request]
     def initialize(request)
-      @request      = request
-      @contents_for = {}
+      @request = request
     end
 
     # List the webprofiler history.
@@ -21,9 +20,7 @@ module Rack
       @collections = Rack::WebProfiler::Model::CollectionRecord.order(Sequel.desc(:created_at))
                                                             .limit(20)
 
-      if !@request.env["HTTP_ACCEPT"].nil? && @request.env["HTTP_ACCEPT"].include?("json")
-        return json(@collections, 200, {only: [:token, :http_method, :http_status, :url, :ip]})
-      end
+      return json(@collections, 200, {only: [:token, :http_method, :http_status, :url, :ip]}) if prefer_json?
       erb "panel/index.erb", layout: "panel/layout.erb"
     end
 
@@ -34,24 +31,19 @@ module Rack
     # @return [Rack::Response]
     def show(token)
       @collection = Rack::WebProfiler::Model::CollectionRecord[token: token]
-      return error404 if @collection.nil?
+      return not_found if @collection.nil?
 
       @collectors = Rack::WebProfiler.config.collectors.all
       @collector  = nil
 
       unless @request.params['panel'].nil?
         @collector = @collectors[@request.params['panel'].to_sym]
-      end
-
-      if @collector.nil?
+      else
         @collector = @collectors.values.first
       end
+      return not_found if @collector.nil?
 
-      @current_panel = @collector.name
-
-      if !@request.env["HTTP_ACCEPT"].nil? && @request.env["HTTP_ACCEPT"].include?("json")
-        return json(@collection)
-      end
+      return json(@collection) if prefer_json?
       erb "panel/show.erb", layout: "panel/layout.erb"
     end
 
@@ -65,8 +57,6 @@ module Rack
       return erb nil, status: 404 if @collection.nil?
 
       @collectors = Rack::WebProfiler.config.collectors.all
-      # @todo process the callector views
-      # @collectors = Rack::WebProfiler::Collector.render_tabs(@record)
 
       erb "profiler.erb"
     end
@@ -82,10 +72,44 @@ module Rack
 
     private
 
+    # Is "application/json" reponse is prefered?
+    #
+    # @return [Boolean]
+    #
+    # @private
+    def prefer_json?
+      prefered_http_accept == "application/json"
+    end
+
+    # Returns the prefered Content-Type response between html and json.
+    #
+    # @return [String]
+    #
+    # @private
+    def prefered_http_accept
+      Rack::Utils.best_q_match(@request.env["HTTP_ACCEPT"], %w[text/html application/json])
+    end
+
+    # Redirection.
+    #
+    # @param path [string]
+    #
+    # @return [Rack::Response]
+    #
+    # @private
     def redirect(path)
       Rack::Response.new([], 302, {
         "Location" => "#{@request.base_url}#{path}",
       })
+    end
+
+    # 404 page.
+    #
+    # @return [Rack::Response]
+    #
+    # @private
+    def not_found
+      erb "404.erb", layout: "panel/layout.erb", status: 404
     end
 
     # Render a HTML reponse from an ERB template.
@@ -121,43 +145,6 @@ module Rack
       Rack::Response.new(data.send(:to_json, opts), status, {
         "Content-Type" => "application/json",
       })
-    end
-
-    def error404
-      erb "404.erb", layout: "panel/layout.erb", status: 404
-    end
-
-    def _render_erb(template)
-      ERB.new(template).result(binding)
-    end
-
-    def partial(path)
-      return "" if path.nil?
-      ERB.new(read_template(path)).result(binding)
-    end
-
-    def render_collector(collector, data)
-      @data = data
-      return "" if collector.nil?
-      ERB.new(read_template(collector.template)).result(binding)
-    end
-
-    def content_for(name)
-      name = name.to_sym
-
-      if block_given?
-        @contents_for[name] = Proc.new
-      elsif @contents_for[name].respond_to?(:call)
-        @contents_for[name].call
-      end
-    end
-
-    def read_template(template)
-      unless template.empty?
-        path = ::File.expand_path("../../templates/#{template}", __FILE__)
-        return ::File.read(path) if ::File.exist?(path)
-      end
-      template
     end
   end
 end
