@@ -1,8 +1,27 @@
-<%
-  datas = @collection.datas
-  token = @collection.token
-%>
+<% content_for :toolbar do %>
+  <%= partial 'profiler.erb', variables: { collectors: @collectors, collection: @collection } %>
+<% end %>
+<% content_for :header do %>
+  <a href="<%= @collection.url %>"><%=h @collection.url %></a>
+<% end %>
+<% content_for :sidebar do %>
+  <% @collectors.each do |_k, collector| %>
+    <% if collector_has_panel?(collector, @collection) %>
+    <div class="sidebar__item">
+      <div class="sidebar__item-inner">
+        <a href="<%=h WebProfiler::Router.url_for_profiler(@collection.token, collector.name) %>">
+          <i class="icn">
+            <% unless collector.icon.nil? %><img alt="" src="<%=h collector.icon %>" /><% end %>
+          </i>
+          <span><%=h collector.name.capitalize.gsub(/_/, ' ') %></span>
+        </a>
+      </div>
+    </div>
+    <% end %>
+  <% end %>
+<% end %>
+
 <div class="">
-  <% render_collector(@collector, datas[@collector.name.to_sym][:datas]) %>
-  <%= content_for :panel %>
+  <%#= @collector.render_panel(@collection) %>
+  <%= collector_panel(@collector, @collection) %>
 </div>

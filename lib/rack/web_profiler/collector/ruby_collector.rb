@@ -41,21 +41,21 @@ ICON
 end
 
 __END__
-<% content_for :tab do %>
-  <%= data[:ruby_version] %>
+<% tab_content do %>
+  <%=h data(:ruby_version) %>
 <% end %>
 
-<% content_for :panel do %>
+<% panel_content do %>
   <div class="block">
     <h3>Ruby informations</h3>
     <table>
       <tr>
         <th>Version</th>
-        <td><%= "#{data[:ruby_version]}p#{data[:ruby_patchlevel]} (#{data[:ruby_release_date]} revision #{data[:ruby_revision]}) [#{data[:ruby_platform]}]" %></td>
+        <td><%=h "#{data(:ruby_version)}p#{data(:ruby_patchlevel)} (#{data(:ruby_release_date)} revision #{data(:ruby_revision)}) [#{data(:ruby_platform)}]" %></td>
       </tr>
       <tr>
         <th>Documentation</th>
-        <td><a href="<%= data[:ruby_doc_url] %>"><%= data[:ruby_doc_url] %></a></td>
+        <td><a href="<%=h data(:ruby_doc_url) %>"><%= data(:ruby_doc_url) %></a></td>
       </tr>
     </table>
   </div>
@@ -67,13 +67,15 @@ __END__
         <tr>
           <th>Name</th>
           <th>Version</th>
+          <th>Summary</th>
         </tr>
       <thead>
       <tbody>
-      <% data[:gems_list].sort!{|a,b| a[:name] <=> b[:name] }.each do |g| %>
+      <% data(:gems_list).sort!{|a,b| a[:name] <=> b[:name] }.each do |g| %>
         <tr>
-          <th><%= g[:name] %></th>
+          <th><a href="<%= g[:homepage] %>"><%= g[:name] %></a></th>
           <td><%= g[:version] %></td>
+          <td><%= g[:summary] %></td>
         </tr>
       <% end %>
       </tbody>
