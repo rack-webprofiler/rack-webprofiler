@@ -20,6 +20,6 @@ ICON
 end
 
 __END__
-<% content_for :tab do %>
-  <%= (data[:runtime] * 1000.0).round(2) %> ms
+<% tab_content do %>
+  <%= (data(:runtime) * 1000.0).round(2) %> ms
 <% end %>

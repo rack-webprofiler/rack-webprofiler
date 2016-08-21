@@ -81,19 +81,12 @@ module Rack
     # @param path [String] Path to the ERB template
     #
     # @return [Rack::Response]
-    def erb(path, layout: nil, status: 200)
-      content = ""
+    def erb(path, layout: nil, variables: nil, status: 200)
+      v = WebProfiler::View.new(path, layout: layout)
 
-      unless path.nil?
-        templates = [read_template(path)]
-        templates << read_template(layout) unless layout.nil?
+      variables ||= binding
 
-        content = templates.inject(nil) do |prev, temp|
-          _render_erb(temp) { prev }
-        end
-      end
-
-      Rack::Response.new(content, status, {
+      Rack::Response.new(v.result(variables), status, {
         "Content-Type" => "text/html",
       })
     end

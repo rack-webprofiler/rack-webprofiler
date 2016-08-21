@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Rack WebProfiler</title>
-  <link rel="stylesheet"  href="<%= WebProfiler::Router.url_for_asset('css/rwpt.css') %>" />
+  <link rel="stylesheet"  href="<%=h WebProfiler::Router.url_for_asset('css/rwpt.css') %>" />
 </head>
 <body>
   <div id="rack-webprofiler">
@@ -11,7 +11,11 @@
     <main id="main">
       <header id="header">
         <div class="header__section">
-          <span><a href="<%= !@collection.nil? ? @collection.url : nil %>"><%= !@collection.nil? ? @collection.url : nil %></a></span>
+          <span>
+            <% if content_for? :header %>
+              <%= yield_content :header %>
+            <% end %>
+          </span>
         </div>
         <div class="header__section header__section--blank"></div>
       </header>
@@ -24,10 +28,10 @@
     </main>
   </div>
 
-  <script src="<%= WebProfiler::Router.url_for_asset('js/rwpt.min.js') %>"></script>
+  <script src="<%=h WebProfiler::Router.url_for_asset('js/rwpt.min.js') %>"></script>
 
-  <% unless @collection.nil? %>
-    <%= partial 'profiler.erb' %>
+  <% if content_for? :toolbar %>
+    <%= yield_content :toolbar %>
   <% end %>
 </body>
 </html>

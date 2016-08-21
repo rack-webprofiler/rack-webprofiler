@@ -1,24 +1,28 @@
 <style>
 <%= partial 'assets/css/profiler.css' %>
 </style>
-<%
-  datas = @collection.datas
-  token = @collection.token
-%>
 <div id="rack-webprofiler-bar" class="rack-webprofiler--long">
   <div class="rack-webprofiler__wrapper">
-  <% @collectors.each do |name, collector| %>
-    <div class="rack-webprofiler__item rack-webprofiler_collectors_<%= name %>">
-      <a href="<%= WebProfiler::Router.url_for_profiler(token, name) %>">
+<% @collectors.each do |name, collector| %>
+  <% if collector_has_tab?(collector, @collection) %>
+    <% status = collector_status(collector, @collection) %>
+    <div class="rack-webprofiler__item rack-webprofiler_collectors_<%=h name %>">
+    <% if collector_has_panel?(collector, @collection) %>
+      <a href="<%=h WebProfiler::Router.url_for_profiler(@collection.token, name) %>">
+    <% end %>
       <% unless collector.icon.nil? %>
-        <i class="icn"><img alt="" src="<%= collector.icon %>" /></i>
+        <i class="icn"><img alt="" src="<%=h collector.icon %>" /></i>
       <% end %>
-
-        <% render_collector(collector, datas[name.to_sym][:datas]) %>
-        <span class="rack-webprofiler__item__value"><%= content_for :tab %></span>
-        <span class="rack-webprofiler__item__status-color <%= datas[name.to_sym][:status] %>"></span>
+        <span class="rack-webprofiler__item__value">
+          <%#= collector.render_tab(@collection) %>
+          <%= collector_tab(collector, @collection) %>
+        </span>
+        <span class="rack-webprofiler__item__status-color <%=h status.to_s %>"></span>
+    <% if collector_has_panel?(collector, @collection) %>
       </a>
+    <% end %>
     </div>
   <% end %>
+<% end %>
   </div>
 </div>

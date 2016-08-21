@@ -1,3 +1,15 @@
+<% content_for :header, "List" %>
+
+<% content_for :sidebar do %>
+<div class="sidebar__item">
+  <div class="sidebar__item-inner">
+    <a href="<%=h WebProfiler::Router.url_for_clean_profiler %>">
+      <i class="icn"></i>
+      <span>Cleanup database</span>
+    </a>
+  </div>
+</div>
+<% end %>
 
 <div class="block">
   <table>
@@ -14,12 +26,12 @@
     <tbody>
     <% @collections.each do |r| %>
       <tr>
-        <td><a href="<%= WebProfiler::Router.url_for_profiler(r.token) %>"><%= r.token %></a></td>
-        <td><%= r.http_method %></td>
-        <td><%= r.http_status %></td>
-        <td><%= r.url %></td>
-        <td><%= r.ip %></td>
-        <td><span title="<%= r.created_at %>"><%= r.created_at.strftime('%Y-%m-%d %H:%M:%S') %></span></td>
+        <td><a href="<%=h WebProfiler::Router.url_for_profiler(r.token) %>"><%=h r.token %></a></td>
+        <td><%=h r.http_method %></td>
+        <td><%=h r.http_status %></td>
+        <td><%=h r.url %></td>
+        <td><%=h r.ip %></td>
+        <td><span title="<%= r.created_at %>"><%=h r.created_at.strftime('%a, %d %b %Y %T %Z') %></span></td>
       </tr>
     <% end %>
     </tbody>

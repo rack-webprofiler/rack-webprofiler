@@ -65,14 +65,14 @@ ICON
 end
 
 __END__
-<% content_for :tab do %>
-  <%= data[:response_status] %> | <%= data[:request_method] %> <%= data[:request_path] %>
+<% tab_content do %>
+  <%=h data(:response_status) %>
 <% end %>
 
-<% content_for :panel do %>
+<% panel_content do %>
   <div class="block">
     <h3>GET</h3>
-    <% unless data[:request_get].empty? %>
+    <% unless data(:request_get).empty? %>
     <table>
       <thead>
         <tr>
@@ -81,10 +81,10 @@ __END__
         </tr>
       <thead>
       <tbody>
-      <% data[:request_get].each do |k, v| %>
+      <% data(:request_get).each do |k, v| %>
         <tr>
-          <th><%= k %></th>
-          <td class="code"><%= v %></td>
+          <th><%=h k %></th>
+          <td class="code"><%=h v %></td>
         </tr>
       <% end %>
       </tbody>
@@ -96,7 +96,7 @@ __END__
 
   <div class="block">
     <h3>POST</h3>
-    <% if data[:request_post] && !data[:request_post].empty? %>
+    <% if data(:request_post) && !data(:request_post).empty? %>
     <table>
       <thead>
         <tr>
@@ -105,10 +105,10 @@ __END__
         </tr>
       <thead>
       <tbody>
-      <% data[:request_post].each do |k, v| %>
+      <% data(:request_post).each do |k, v| %>
         <tr>
-          <th><%= k %></th>
-          <td class="code"><%= v %></td>
+          <th><%=h k %></th>
+          <td class="code"><%=h v %></td>
         </tr>
       <% end %>
       </tbody>
@@ -120,7 +120,7 @@ __END__
 
   <div class="block">
     <h3>Request headers</h3>
-    <% unless data[:request_headers].empty? %>
+    <% unless data(:request_headers).empty? %>
     <table>
       <thead>
         <tr>
@@ -129,10 +129,10 @@ __END__
         </tr>
       <thead>
       <tbody>
-      <% data[:request_headers].sort.each do |k, v| %>
+      <% data(:request_headers).sort.each do |k, v| %>
         <tr>
-          <th><%= k %></th>
-          <td class="code"><%= v %></td>
+          <th><%=h k %></th>
+          <td class="code"><%=h v %></td>
         </tr>
       <% end %>
       </tbody>
@@ -144,8 +144,8 @@ __END__
 
   <div class="block">
     <h3>Request content</h3>
-    <% unless data[:request_body].nil? %>
-    <code><%= data[:request_body] %></code>
+    <% unless data(:request_body).nil? %>
+    <%=h data(:request_body) %>
     <% else %>
     <p><span class="text__no-value">No request content</span></p>
     <% end %>
@@ -153,7 +153,7 @@ __END__
 
   <div class="block">
     <h3>Response headers</h3>
-    <% unless data[:response_headers].empty? %>
+    <% unless data(:response_headers).empty? %>
     <table>
       <thead>
         <tr>
@@ -162,7 +162,7 @@ __END__
         </tr>
       <thead>
       <tbody>
-      <% data[:response_headers].sort.each do |k, v| %>
+      <% data(:response_headers).sort.each do |k, v| %>
         <tr>
           <th><%= k %></th>
           <td class="code"><%= v %></td>
@@ -177,7 +177,7 @@ __END__
 
   <div class="block">
     <h3>Session</h3>
-    <% unless data[:request_session].empty? %>
+    <% unless data(:request_session).empty? %>
     <table>
       <thead>
         <tr>
@@ -186,7 +186,7 @@ __END__
         </tr>
       <thead>
       <tbody>
-      <% data[:request_session].each do |k, v| %>
+      <% data(:request_session).each do |k, v| %>
         <tr>
           <th><%= k %></th>
           <td class="code"><%= v %></td>
@@ -201,7 +201,7 @@ __END__
 
   <div class="block">
     <h3>Cookies</h3>
-    <% unless data[:request_cookies].empty? %>
+    <% unless data(:request_cookies).empty? %>
     <table>
       <thead>
         <tr>
@@ -210,10 +210,10 @@ __END__
         </tr>
       <thead>
       <tbody>
-      <% data[:request_cookies].each do |k, v| %>
+      <% data(:request_cookies).each do |k, v| %>
         <tr>
-          <th><%= k %></th>
-          <td class="code"><%= v %></td>
+          <th><%=h k %></th>
+          <td class="code"><%=h v %></td>
         </tr>
       <% end %>
       </tbody>
@@ -225,7 +225,7 @@ __END__
 
   <div class="block">
     <h3>Env</h3>
-    <% if data[:rack_env] && !data[:rack_env].empty? %>
+    <% if data(:rack_env) && !data(:rack_env).empty? %>
     <table>
       <thead>
         <tr>
@@ -234,10 +234,10 @@ __END__
         </tr>
       <thead>
       <tbody>
-      <% data[:rack_env].each do |k, v| %>
+      <% data(:rack_env).sort.each do |k, v| %>
         <tr>
-          <th><%= k %></th>
-          <td class="code"><%= v %></td>
+          <th><%=h k %></th>
+          <td class="code"><%=h v %></td>
         </tr>
       <% end %>
       </tbody>

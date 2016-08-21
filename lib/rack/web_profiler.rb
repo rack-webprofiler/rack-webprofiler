@@ -12,6 +12,7 @@ module Rack
     autoload :Model,      "rack/web_profiler/model"
     autoload :Request,    "rack/web_profiler/request"
     autoload :Router,     "rack/web_profiler/router"
+    autoload :View,       "rack/web_profiler/view"
 
     module AutoConfigure
       autoload :Rails, "rack/web_profiler/auto_configure/rails"
