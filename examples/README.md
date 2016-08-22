@@ -2,7 +2,6 @@
 
 ```shell
 $ rackup rack/config.ru
-$ rackup sinatra/config.ru
 ```
 
 

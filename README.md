@@ -38,16 +38,6 @@ end
 run builder
 ```
 
-### Sinatra
-
-```ruby
-require "rack-webprofiler"
-
-class App < Sinatra::Base
-  use Rack::WebProfiler
-end
-```
-
 ### Rails
 
 The WebProfiler is automatically enabled.

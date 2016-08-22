@@ -20,11 +20,6 @@ module Rack
       autoload :RequestCollector,      "rack/web_profiler/collector/rails/request_collector"
     end
 
-    module Sinatra
-      autoload :RequestCollector, "rack/web_profiler/collector/sinatra/request_collector"
-      autoload :SinatraCollector, "rack/web_profiler/collector/sinatra/sinatra_collector"
-    end
-
     # DSL
     module DSL
       def self.included(base)
