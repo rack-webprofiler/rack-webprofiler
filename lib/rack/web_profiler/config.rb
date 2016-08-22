@@ -13,12 +13,6 @@ module Rack
       # Rack
       # Rack::WebProfiler::Collector::Rack::RackCollector,
       Rack::WebProfiler::Collector::Rack::RequestCollector,
-
-      # Rails
-      # Rack::WebProfiler::Collector::Rails::ActiveRecordCollector,
-      # Rack::WebProfiler::Collector::Rails::LoggerCollector,
-      Rack::WebProfiler::Collector::Rails::RailsCollector,
-      Rack::WebProfiler::Collector::Rails::RequestCollector,
     ].freeze
     def initialize
       @collectors = Rack::WebProfiler::Collectors.new

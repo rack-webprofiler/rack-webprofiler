@@ -38,11 +38,6 @@ end
 run builder
 ```
 
-### Rails
-
-The WebProfiler is automatically enabled.
-
-
 ## Configuration
 
 You can specify the temporary directory. It is used to save the SQlite database.
@@ -77,6 +72,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/nicola
 ## Contributors
 
 * Thomas de Cicco — Design ([@Thomasdc_](https://twitter.com/Thomasdc_))
+* Christophe Massolin — FrontEnd ([@furiouzz](https://github.com/furiouzz))
 
 ## License
 
@@ -84,7 +80,7 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 ## Alternatives & comments
 
-* https://github.com/MiniProfiler/rack-mini-profiler
-* https://github.com/dawanda/rack-profiler
+* [https://github.com/MiniProfiler/rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler)
+* [https://github.com/dawanda/rack-profiler](https://github.com/dawanda/rack-profiler)
 
 This project is in part inspired by the [Symfony WebProfiler Bundle](https://github.com/symfony/web-profiler-bundle).

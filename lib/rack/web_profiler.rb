@@ -14,10 +14,6 @@ module Rack
     autoload :Router,     "rack/web_profiler/router"
     autoload :View,       "rack/web_profiler/view"
 
-    module AutoConfigure
-      autoload :Rails, "rack/web_profiler/auto_configure/rails"
-    end
-
     class << self
       def config
         @config ||= Config.new
@@ -89,5 +85,3 @@ module Rack
     end
   end
 end
-
-require "rack/web_profiler/auto_configure/rails" if defined? Rails

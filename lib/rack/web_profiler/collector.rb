@@ -13,13 +13,6 @@ module Rack
       autoload :RequestCollector, "rack/web_profiler/collector/rack/request_collector"
     end
 
-    module Rails
-      autoload :ActiveRecordCollector, "rack/web_profiler/collector/rails/active_record_collector"
-      autoload :LoggerCollector,       "rack/web_profiler/collector/rails/logger_collector"
-      autoload :RailsCollector,        "rack/web_profiler/collector/rails/rails_collector"
-      autoload :RequestCollector,      "rack/web_profiler/collector/rails/request_collector"
-    end
-
     # DSL
     module DSL
       def self.included(base)
