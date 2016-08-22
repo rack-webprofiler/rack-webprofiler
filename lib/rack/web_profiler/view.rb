@@ -157,16 +157,12 @@ module Rack
 
         #
         def collector_status(collector, collection)
-          return nil unless is_collection_contains_datas_for_collector?(collection, collector)
-
-          collection.datas[collector.name.to_sym][:status]
+          collector_data_storage(collector, collection, :status)
         end
 
         #
         def collector_datas(collector, collection)
-          return nil unless is_collection_contains_datas_for_collector?(collection, collector)
-
-          collection.datas[collector.name.to_sym][:datas]
+          collector_data_storage(collector, collection, :datas)
         end
 
         def collector_tab(collector, collection)
@@ -184,11 +180,11 @@ module Rack
         end
 
         def collector_has_tab?(collector, collection)
-          !collector_tab(collector, collection).nil?
+          collector_data_storage(collector, collection, :show_tab)
         end
 
         def collector_has_panel?(collector, collection)
-          !collector_panel(collector, collection).nil?
+          collector_data_storage(collector, collection, :show_panel)
         end
 
         private
@@ -199,6 +195,13 @@ module Rack
             v.result(collector: collector, collection: collection)
             v.context
           end
+        end
+
+        def collector_data_storage(collector, collection, key = nil)
+          return nil unless is_collection_contains_datas_for_collector?(collection, collector)
+
+          storage = collection.datas[collector.name.to_sym]
+          storage[key] if !key.nil? && storage.has_key?(key)
         end
 
         def is_valid_collector?(collector)

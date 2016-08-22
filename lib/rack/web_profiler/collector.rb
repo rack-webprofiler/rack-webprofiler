@@ -93,8 +93,10 @@ module Rack
       attr_reader :datas
 
       def initialize
-        @datas  = Hash.new
-        @status = nil
+        @datas      = Hash.new
+        @status     = nil
+        @show_tab   = true
+        @show_panel = true
       end
 
       # Store a value.
@@ -118,13 +120,35 @@ module Rack
         @status
       end
 
+      #
+      #
+      # @param b [Boolean, nil]
+      #
+      # @return [Boolean]
+      def show_panel(b = nil)
+        @show_panel = !!b unless b.nil?
+        @show_panel
+      end
+
+      #
+      #
+      # @param b [Boolean, nil]
+      #
+      # @return [Boolean]
+      def show_tab(b = nil)
+        @show_tab = !!b unless b.nil?
+        @show_tab
+      end
+
       # Transform DataStorage to an Hash
       #
       # @return [Hash<Symbol, Object>]
       def to_h
         {
-          datas: @datas,
-          status: @status
+          datas:      @datas,
+          status:     @status,
+          show_panel: @show_panel,
+          show_tab:   @show_tab,
         }
       end
     end
