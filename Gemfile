@@ -3,8 +3,6 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in rack-webprofiler.gemspec
 gemspec
 
-gem "sinatra"
-
 group :development do
   gem "guard"
   gem "guard-sass", require: false
