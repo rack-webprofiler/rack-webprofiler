@@ -27,16 +27,34 @@ module Rack
       module ClassMethods
         attr_reader :definition
 
-        def icon(icon = nil);           definition.icon     = icon;          end
-        def collector_name(name = nil); definition.name     = name;          end
-        def position(position = nil);   definition.position = position.to_i; end
-        def collect(&block);            definition.collect  = block;         end
+        # Set the icon of the {Rack::WebProfiler::Collector}.
+        #
+        # @param icon [String, nil]
+        def icon(icon = nil); definition.icon = icon; end
 
+        # Set the name of the {Rack::WebProfiler::Collector}.
+        #
+        # @param name [String, nil]
+        def collector_name(name = nil); definition.name = name; end
+
+        #
+        def position(position = nil); definition.position = position.to_i; end
+
+        #
+        def collect(&block); definition.collect = block; end
+
+        # Set the template of the {Rack::WebProfiler::Collector}.
+        #
+        # @param template [String, nil]
+        # @option type [Symbol] :file or :DATA
         def template(template = nil, type: :file)
           template = get_data_contents(template) if type == :DATA
           definition.template = template
         end
 
+        # Tell if the {Rack::WebProfiler::Collector} is enabled.
+        #
+        # @param is_enabled [Boolean, Block]
         def is_enabled?(is_enabled = true)
           definition.is_enabled = Proc.new if block_given?
           definition.is_enabled = is_enabled

@@ -42,6 +42,7 @@ module Rack
     # Initialize
     #
     # @param app [Proc]
+    # @option tmp_dir [String]
     def initialize(app, tmp_dir: nil)
       @app = app
 

@@ -136,8 +136,8 @@ module Rack
     # Render a JSON response from an Array or a Hash.
     #
     # @param data [Array, Hash] Data
-    # @param status [Integer]
-    # @param opts [Hash]
+    # @option status [Integer]
+    # @option opts [Hash]
     #
     # @return [Rack::Response]
     #

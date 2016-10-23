@@ -19,8 +19,6 @@ module Rack
     end
 
     # Setup the configuration
-    #
-    # @param [block] block
     def build!
       unless block_given?
         # @todo raise an Exception if no block given
