@@ -8,6 +8,7 @@ group :development do
   gem "guard-sass", require: false
   gem "guard-uglify", require: false
   gem "guard-rack", require: false
+  gem 'guard-rspec', require: false
 
   gem "shotgun"
   gem "pry"
