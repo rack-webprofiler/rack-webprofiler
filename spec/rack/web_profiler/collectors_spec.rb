@@ -4,7 +4,7 @@ describe Rack::WebProfiler::Collectors do
   it "register and unregister collectors corectly" do
     collector_list = {
       time: Rack::WebProfiler::Collector::TimeCollector,
-      rack: Rack::WebProfiler::Collector::Rack::RackCollector,
+      rack: Rack::WebProfiler::Collector::RackCollector,
       ruby: Rack::WebProfiler::Collector::RubyCollector,
     }
     collectors = Rack::WebProfiler::Collectors.new
@@ -12,7 +12,7 @@ describe Rack::WebProfiler::Collectors do
     # add
     collectors.add_collector Rack::WebProfiler::Collector::TimeCollector
     collectors.add_collector [
-      Rack::WebProfiler::Collector::Rack::RackCollector,
+      Rack::WebProfiler::Collector::RackCollector,
       Rack::WebProfiler::Collector::RubyCollector,
     ]
 
@@ -25,7 +25,7 @@ describe Rack::WebProfiler::Collectors do
     # remove
     collectors.remove_collector Rack::WebProfiler::Collector::TimeCollector
     collectors.remove_collector [
-      Rack::WebProfiler::Collector::Rack::RackCollector,
+      Rack::WebProfiler::Collector::RackCollector,
       Rack::WebProfiler::Collector::RubyCollector,
     ]
 

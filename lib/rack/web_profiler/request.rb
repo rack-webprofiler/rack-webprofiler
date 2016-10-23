@@ -1,18 +1,34 @@
 module Rack
   #
   class WebProfiler::Request < Rack::Request
-    attr_reader :runtime, :exception
 
-    def start_runtime!
-      @request_start ||= Time.now.to_f
+    # Get HTTP headers.
+    #
+    # @return [Hash]
+    def http_headers
+      env.select {|k,v| (k.start_with?("HTTP_") && k != "HTTP_VERSION") || k == "CONTENT_TYPE"}
+        .collect {|k,v| [k.sub(/^HTTP_/, ""), v]}
+        .collect {|k,v| [k.split("_").collect(&:capitalize).join("-"), v]}
     end
 
-    def save_runtime!
-      @runtime ||= Time.now.to_f - @request_start
+    # Get body has a String.
+    #
+    # @return [String]
+    def body_string
+      @body.to_s
     end
 
-    def save_exception(e)
-      @exception = e
+    # Get full HTTP request in HTTP format.
+    #
+    # @return [String]
+    def raw
+      headers = http_headers.map {|k, v| "#{k}: #{v}\r\n"}.join
+      sprintf "%s %s %s\r\n%s\r\n%s", request_method.upcase, fullpath, env["SERVER_PROTOCOL"], headers, body_string
+    end
+
+    def freeze  # :nodoc:
+      @body = body.read
+      super
     end
   end
 end

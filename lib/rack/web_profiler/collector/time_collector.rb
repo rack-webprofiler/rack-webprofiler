@@ -10,9 +10,14 @@ ICON
     position       3
 
     collect do |request, _response|
-      store :runtime, request.runtime
+      runtime = request.env[WebProfiler::ENV_RUNTIME] * 1000.0
 
-      status :warning if request.runtime >= 500
+      store :runtime, runtime
+
+      status :warning if runtime >= 200
+      status :danger  if runtime >= 1000
+
+      show_panel false
     end
 
     template __FILE__, type: :DATA
@@ -21,5 +26,5 @@ end
 
 __END__
 <% tab_content do %>
-  <%= (data(:runtime) * 1000.0).round(2) %> ms
+  <%= data(:runtime).round(2) %> ms
 <% end %>

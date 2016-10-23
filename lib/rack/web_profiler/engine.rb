@@ -11,7 +11,7 @@ module Rack
       #
       # @return [Rack::Response]
       def process(request, body, status, headers)
-        response = Rack::Response.new(body, status, headers)
+        response = Rack::WebProfiler::Response.new(request, body, status, headers)
         record   = collect!(request, response)
 
         return response if !headers[CONTENT_TYPE].nil? and !headers[CONTENT_TYPE].include? "text/html"

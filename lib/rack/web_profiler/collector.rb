@@ -4,14 +4,13 @@ module Rack
 
   # Collector
   class WebProfiler::Collector
-    autoload :RubyCollector, "rack/web_profiler/collector/ruby_collector"
-    autoload :TimeCollector, "rack/web_profiler/collector/time_collector"
     autoload :View, "rack/web_profiler/collector/view"
 
-    module Rack
-      autoload :RackCollector,    "rack/web_profiler/collector/rack/rack_collector"
-      autoload :RequestCollector, "rack/web_profiler/collector/rack/request_collector"
-    end
+    # Collectors
+    autoload :RackCollector,      "rack/web_profiler/collector/rack_collector"
+    autoload :RequestCollector,   "rack/web_profiler/collector/request_collector"
+    autoload :RubyCollector,      "rack/web_profiler/collector/ruby_collector"
+    autoload :TimeCollector,      "rack/web_profiler/collector/time_collector"
 
     # DSL
     module DSL

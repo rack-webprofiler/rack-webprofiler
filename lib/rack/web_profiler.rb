@@ -10,6 +10,7 @@ module Rack
     autoload :Controller, "rack/web_profiler/controller"
     autoload :Engine,     "rack/web_profiler/engine"
     autoload :Model,      "rack/web_profiler/model"
+    autoload :Response,   "rack/web_profiler/response"
     autoload :Request,    "rack/web_profiler/request"
     autoload :Router,     "rack/web_profiler/router"
     autoload :View,       "rack/web_profiler/view"
@@ -17,6 +18,10 @@ module Rack
     module Rouge
       autoload :HTMLFormatter, "rack/web_profiler/rouge/html_formatter"
     end
+
+    ENV_RUNTIME_START = 'rack_webprofiler.runtime_start'.freeze
+    ENV_RUNTIME       = 'rack_webprofiler.runtime'.freeze
+    ENV_EXCEPTION     = 'rack_webprofiler.exception'.freeze
 
     class << self
       def config
@@ -52,7 +57,7 @@ module Rack
     def call(env)
       begin
         request = WebProfiler::Request.new(env)
-        request.start_runtime!
+        env[ENV_RUNTIME_START] = Time.now.to_f
 
         response = WebProfiler::Router.response_for(request)
         return response.finish if response.is_a? Rack::Response
@@ -78,10 +83,11 @@ module Rack
     #
     # @return [Rack::Response]
     def process(request, body, status, headers, exception = nil)
-      request.save_runtime!
+      request.env[ENV_RUNTIME]   = Time.now.to_f - request.env[ENV_RUNTIME_START]
+      request.env[ENV_EXCEPTION] = nil
 
       unless exception.nil?
-        request.save_exception(exception)
+        request.env[ENV_EXCEPTION] = exception
         WebProfiler::Engine.process_exception(request).finish
       else
         WebProfiler::Engine.process(request, body, status, headers).finish

@@ -1,5 +1,5 @@
 module Rack
-  class WebProfiler::Collector::Rack::RequestCollector
+  class WebProfiler::Collector::RequestCollector
     include Rack::WebProfiler::Collector::DSL
 
     icon <<-'ICON'
@@ -12,55 +12,42 @@ ICON
     position       2
 
     collect do |request, response|
-      store :request_headers, get_request_headers(request)
-      store :request_path,    request.path
-      store :request_method,  request.request_method
-      store :request_cookies, request.cookies
-      store :request_get,     request.GET
-      store :request_post,    get_request_post(request)
-      store :request_session, hash_to_s(request.session)
-      store :request_cookies, request.cookies
-      store :request_body,    get_request_body(request)
-
-      store :rack_env, hash_to_s(request.env)
+      store :request_headers,   request.http_headers
+      store :request_fullpath,  request.fullpath
+      store :request_method,    request.request_method
+      store :request_cookies,   request.cookies
+      store :request_get,       request.GET
+      store :request_post,      request_post(request)
+      store :request_session,   hash_stringify_values(request.session)
+      store :request_cookies,   request.cookies
+      store :request_body,      request.body_string
+      store :request_mediatype, request.media_type
+      store :request_raw,       request.raw
 
       store :response_status,  response.status
       store :response_headers, response.headers
+      store :response_raw,     response.raw
 
       if response.successful?
         status :success
       elsif response.redirection?
         status :warning
       else
-        status :error
+        status :danger
       end
     end
 
     template __FILE__, type: :DATA
 
     class << self
-      # Get request headers.
-      #
-      # @return [Hash]
-      def get_request_headers(request)
-        request.env.select {|k,v| k.start_with? 'HTTP_'}
-          .collect {|k,v| [k.sub(/^HTTP_/, ''), v]}
-          .collect {|k,v| [k.split('_').collect(&:capitalize).join('-'), v]}
-      end
-
-      def get_request_post(request)
+      def request_post(request)
         request.POST if request.POST && !request.POST.empty?
       rescue Exception
         nil
       end
 
-      def get_request_body(request)
-        return nil if request.body.nil? || request.get?
-        body = request.body.dup
-        body.read
-      end
-
-      def hash_to_s(hash)
+      def hash_stringify_values(hash)
+        return {} unless hash.kind_of?(Hash)
         hash.collect {|k,v| [k, v.to_s]}
       end
     end
@@ -70,6 +57,17 @@ end
 __END__
 <% tab_content do %>
   <%=h data(:response_status) %>
+
+  <div class="details">
+    <div class="wrapper">
+      <dl>
+        <dt>Status</dt>
+        <dd><%=h data(:response_status) %> - <%=h Rack::Utils::HTTP_STATUS_CODES[data(:response_status).to_i] %></dd>
+        <dt>Path</dt>
+        <dd><%=h data(:request_method) %> <%=h data(:request_fullpath) %></dd>
+      </dl>
+    </div>
+  </div>
 <% end %>
 
 <% panel_content do %>
@@ -147,10 +145,20 @@ __END__
 
   <div class="block">
     <h3>Request content</h3>
-    <% unless data(:request_body).nil? %>
-    <%=highlight code: data(:request_body) %>
+    <% unless data(:request_body).empty? %>
+    <%=highlight mimetype: data(:request_mediatype), code: data(:request_body) %>
     <% else %>
     <p><span class="text__no-value">No request content</span></p>
+    <% end %>
+  </div>
+  </div>
+
+  <div class="block">
+    <h3>Request raw</h3>
+    <% unless data(:request_raw).nil? %>
+    <%=highlight language: :http, code: data(:request_raw) %>
+    <% else %>
+    <p><span class="text__no-value">No request raw</span></p>
     <% end %>
   </div>
 
@@ -223,30 +231,6 @@ __END__
     </table>
     <% else %>
     <p><span class="text__no-value">No cookies data</span></p>
-    <% end %>
-  </div>
-
-  <div class="block">
-    <h3>Env</h3>
-    <% if data(:rack_env) && !data(:rack_env).empty? %>
-    <table>
-      <thead>
-        <tr>
-          <th>Key</th>
-          <th>Value</th>
-        </tr>
-      <thead>
-      <tbody>
-      <% data(:rack_env).sort.each do |k, v| %>
-        <tr>
-          <th><%=h k %></th>
-          <td class="code"><%=h v %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-    <% else %>
-    <p><span class="text__no-value">No rack env datas</span></p>
     <% end %>
   </div>
 <% end %>

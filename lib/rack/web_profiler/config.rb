@@ -6,13 +6,11 @@ module Rack
     attr_accessor :collectors, :tmp_dir
 
     DEFAULT_COLLECTORS = [
-      # Commons
+      Rack::WebProfiler::Collector::RackCollector,
+      Rack::WebProfiler::Collector::RequestCollector,
       Rack::WebProfiler::Collector::RubyCollector,
       Rack::WebProfiler::Collector::TimeCollector,
 
-      # Rack
-      # Rack::WebProfiler::Collector::Rack::RackCollector,
-      Rack::WebProfiler::Collector::Rack::RequestCollector,
     ].freeze
     def initialize
       @collectors = Rack::WebProfiler::Collectors.new
