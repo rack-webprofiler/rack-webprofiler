@@ -114,7 +114,7 @@ module Rack
       # @return [Symbol, nil]
       def status(v = nil)
         # @todo check status?
-        # raise Exception, "" unless [:success, :warning, :error].include?(v)
+        # raise Exception, "" unless [:success, :warning, :danger].include?(v)
         @status = v.to_sym unless v.nil?
         @status
       end
