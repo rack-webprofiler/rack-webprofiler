@@ -29,7 +29,7 @@ describe Rack::WebProfiler::Collectors do
       Rack::WebProfiler::Collector::RubyCollector,
     ]
 
-    collector_list.each do |name, klass|
+    collector_list.each do |name, _klass|
       definition = collectors.all[name.to_sym]
       expect(definition).to be_nil
     end
@@ -56,18 +56,18 @@ describe Rack::WebProfiler::Collectors do
 
       icon nil
 
-      collector_name "time"
+      collector_name "rack_request"
       position       3
 
       collect do |request, _response|
-        store :runtime, request.runtime
+        store :request_fullpath,  request.fullpath
       end
 
       template __FILE__, type: :DATA
     end
 
     collectors = Rack::WebProfiler::Collectors.new
-    collectors.add_collector Rack::WebProfiler::Collector::TimeCollector
+    collectors.add_collector Rack::WebProfiler::Collector::RequestCollector
 
     expect { collectors.add_collector CustomCollector }.to raise_error(ArgumentError)
   end
@@ -99,7 +99,7 @@ describe Rack::WebProfiler::Collectors do
       position       3
 
       collect do |request, _response|
-        store :runtime, request.runtime
+        store :request_fullpath,  request.fullpath
       end
 
       template __FILE__, type: :DATA
@@ -124,7 +124,7 @@ describe Rack::WebProfiler::Collectors do
       position       3
 
       collect do |request, _response|
-        store :runtime, request.runtime
+        store :request_fullpath,  request.fullpath
       end
 
       template __FILE__, type: :DATA
