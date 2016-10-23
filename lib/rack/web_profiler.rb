@@ -14,6 +14,10 @@ module Rack
     autoload :Router,     "rack/web_profiler/router"
     autoload :View,       "rack/web_profiler/view"
 
+    module Rouge
+      autoload :HTMLFormatter, "rack/web_profiler/rouge/html_formatter"
+    end
+
     class << self
       def config
         @config ||= Config.new

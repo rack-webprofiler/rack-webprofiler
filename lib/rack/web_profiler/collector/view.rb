@@ -24,20 +24,20 @@ module Rack
         end
       end
 
-      def data(k)
+      def data(k, default = nil)
         return nil if @collection.nil?
 
         datas = @collection.datas[@collector.name.to_sym][:datas]
         return datas[k] if datas.has_key?(k)
 
-        nil
+        default
       end
     end
 
     protected
 
     class Context
-      include WebProfiler::View::CommonHelpers
+      include WebProfiler::View::Helpers::Common
       include Helpers
     end
   end
