@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["pro@nicolas-brousse.fr"]
 
   spec.summary       = %q{A Rack profiler for web applications.}
-  # spec.description   = %q{}
+  spec.description   = %q{A Rack profiler for web applications.}
   spec.homepage      = "http://github.com/nicolas-brousse/rack-webprofiler"
   spec.license       = "MIT"
 
@@ -28,8 +28,6 @@ Gem::Specification.new do |spec|
     || f.match(%r{^(\..*)$})
   end
 
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.add_dependency "rack", ">= 1.6.4"
