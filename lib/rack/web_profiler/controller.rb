@@ -6,7 +6,8 @@ module Rack
   #
   # Generate the views of the WebProfiler.
   class WebProfiler::Controller
-    # Initialize
+
+    # Initialize.
     #
     # @param request [Rack::WebProfiler::Request]
     def initialize(request)

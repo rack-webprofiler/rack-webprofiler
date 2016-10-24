@@ -1,12 +1,18 @@
 module Rack
   #
   class WebProfiler::Response < Rack::Response
-    def initialize(request, body=[], status=200, header={})
+    # Initialize.
+    #
+    # @param request [Rack::WebProfiler::Request]
+    # @param body [String, Array]
+    # @param status [Integer]
+    # @param headers [Hash]
+    def initialize(request, body=[], status=200, headers={})
       @request = request
       @version = "1.0"
       @version = "1.1" unless request.env["SERVER_PROTOCOL"] == "HTTP/1.0"
 
-      super(body, status, header)
+      super(body, status, headers)
     end
 
     # Get full HTTP response in HTTP format.

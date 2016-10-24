@@ -1,7 +1,8 @@
 module Rack
   #
   class WebProfiler::Model::CollectionRecord < Sequel::Model(Rack::WebProfiler::Model.database)
-    # Plugins
+
+    # Plugins.
     plugin :schema
     plugin :hook_class_methods
     plugin :serialization
@@ -32,12 +33,13 @@ module Rack
     end
     create_table unless table_exists?
 
-    # Serialization
+    # Serialization.
     serialize_attributes :marshal, :datas
 
-    # Hooks
+    # Hooks.
     before_create :before_create
 
+    # Generate a token to the record before create it.
     def before_create
       token      = Time.now.to_f.to_s.delete(".").to_i
       self.token = token.to_s(36)

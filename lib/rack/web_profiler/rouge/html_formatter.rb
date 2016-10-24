@@ -2,6 +2,9 @@ module Rack
   #
   class WebProfiler::Rouge::HTMLFormatter < ::Rouge::Formatter
 
+    # Initialize the Formatter.
+    #
+    # @param request [Hash]
     def initialize(opts = {})
       @formatter = opts[:inline_theme] \
         ? ::Rouge::Formatters::HTMLInline.new(opts[:inline_theme])

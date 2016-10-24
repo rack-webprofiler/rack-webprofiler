@@ -19,21 +19,33 @@ module Rack
       autoload :HTMLFormatter, "rack/web_profiler/rouge/html_formatter"
     end
 
+    # Env key constants.
     ENV_RUNTIME_START = 'rack_webprofiler.runtime_start'.freeze
     ENV_RUNTIME       = 'rack_webprofiler.runtime'.freeze
     ENV_EXCEPTION     = 'rack_webprofiler.exception'.freeze
 
     class << self
+      # Configure the WebProfiler.
+      #
+      # @yield the Config object.
+      #
+      # @return [Rack::WebProfiler::Config]
       def config
         @config ||= Config.new
         @config.build!(&Proc.new) if block_given?
         @config
       end
 
+      # Register one or many collectors.
+      #
+      # @param collector_class [Array, Class]
       def register_collector(collector_class)
         config.collectors.add_collector collector_class
       end
 
+      # Unregister one or many collectors.
+      #
+      # @param collector_class [Array, Class]
       def unregister_collector(collector_class)
         config.collectors.remove_collector collector_class
       end

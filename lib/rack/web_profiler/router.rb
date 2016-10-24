@@ -28,6 +28,7 @@ module Rack
       # Route the request.
       #
       # @param request [Rack::WebProfiler::Request]
+      # @param path [String]
       #
       # @return [Rack::Reponse, false]
       def route(request, path)

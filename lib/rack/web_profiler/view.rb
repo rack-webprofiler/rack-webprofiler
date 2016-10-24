@@ -5,12 +5,22 @@ module Rack
   class WebProfiler
     # View
     class View
+      # Initialize a new view.
+      #
+      # @param template [String] template file path or content
+      # @option layout [String, nil] layout file path or content
+      # @option context [Rack::WebProfiler::View::Context, nil]
       def initialize(template, layout: nil, context: nil)
         @template  = template
         @layout    = layout
         @context   = context
       end
 
+      # Get the result of view rendering.
+      #
+      # @param variables [Hash, Binding] view variables
+      #
+      # @return [String]
       def result(variables = {})
         unless @template.nil?
           templates = [read_template(@template)]
@@ -22,12 +32,20 @@ module Rack
         end
       end
 
+      # Get the context.
+      #
+      # @return [Rack::WebProfiler::View::Context]
       def context
         @context ||= Context.new
       end
 
       private
 
+      # Read a template. Returns file content if template is a file path.
+      #
+      # @param template [String] template file path or content
+      #
+      # @return [String]
       def read_template(template)
         unless template.empty?
           path = ::File.expand_path("../../templates/#{template}", __FILE__)
@@ -58,6 +76,11 @@ module Rack
         # @todo better error when there is an ERB error.
       end
 
+      # Format variables to inject them into view context.
+      #
+      # @param v [Hash, Binding] variables
+      #
+      # @return [Hash]
       def format_variables(v)
         case v
         when Binding
@@ -75,7 +98,10 @@ module Rack
 
       # Helpers.
       module Helpers
+
+        # Common helpers.
         module Common
+
           def content_for(key, content = nil, &block)
             block ||= proc { |*| content }
             content_blocks[key.to_sym] << capture_later(&block)
@@ -90,7 +116,12 @@ module Rack
             content_blocks[key.to_sym].map { |b| capture(&b) }.join
           end
 
+          # Render a partial view.
           #
+          # @param path [String] path to partial
+          # @option variables [Hash, nil] variables for partial
+          #
+          # @return [String]
           def partial(path, variables: nil)
             return "" if path.nil?
 
@@ -101,7 +132,11 @@ module Rack
             end
           end
 
+          # Escape html.
           #
+          # @param obj
+          #
+          # @return [String]
           def h(obj)
             case obj
             when String
@@ -111,7 +146,16 @@ module Rack
             end
           end
 
+          # Highlight text.
           #
+          # @option code [String]
+          # @option mimetype [String, nil]
+          # @option language [String, nil]
+          # @option formatter_opts [Hash]
+          #
+          # @yield code.
+          #
+          # @return [String]
           def highlight(code: "", mimetype: nil, language: nil, formatter_opts: {})
             language = language.to_s if language.is_a? Symbol
 
@@ -127,6 +171,9 @@ module Rack
             "<div class=\"highlight\">#{formatter.format(lexer.lex(code))}</div>"
           end
 
+          #
+          #
+          # @yield
           def capture(&block)
             @capture = nil
             @_erbout, _buf_was = '', @_erbout
@@ -135,30 +182,47 @@ module Rack
             result.strip.empty? && @capture ? @capture : result
           end
 
+          #
+          #
+          # @yield
           def capture_later(&block)
             proc { |*| @capture = capture(&block) }
           end
 
           private
 
+          #
+          #
+          # @return [Hash]
           def content_blocks
             @content_blocks ||= Hash.new {|h,k| h[k] = [] }
           end
         end
 
-        # Collector.
+        # Collector helpers.
         module Collector
 
+          # Get collector status from a collection.
           #
+          # @param collector [Rack::WebProfiler::Collector::Definition]
+          # @param collection [Rack::WebProfiler::Model::CollectionRecord]
+          #
+          # @return [Symbol, nil]
           def collector_status(collector, collection)
             collector_data_storage(collector, collection, :status)
           end
 
           #
+          #
+          # @param collector [Rack::WebProfiler::Collector::Definition]
+          # @param collection [Rack::WebProfiler::Model::CollectionRecord]
           def collector_datas(collector, collection)
             collector_data_storage(collector, collection, :datas)
           end
 
+          #
+          # @param collector [Rack::WebProfiler::Collector::Definition]
+          # @param collection [Rack::WebProfiler::Model::CollectionRecord]
           def collector_tab(collector, collection)
             return nil unless is_collection_contains_datas_for_collector?(collection, collector)
 
@@ -166,6 +230,9 @@ module Rack
             c.tab_content
           end
 
+          #
+          # @param collector [Rack::WebProfiler::Collector::Definition]
+          # @param collection [Rack::WebProfiler::Model::CollectionRecord]
           def collector_panel(collector, collection)
             return nil unless is_collection_contains_datas_for_collector?(collection, collector)
 
@@ -173,11 +240,17 @@ module Rack
             c.panel_content
           end
 
+          #
+          # @param collector [Rack::WebProfiler::Collector::Definition]
+          # @param collection [Rack::WebProfiler::Model::CollectionRecord]
           def collector_has_tab?(collector, collection)
             collector_data_storage(collector, collection, :show_tab)
             # !collector_tab(collector, collection).nil?
           end
 
+          #
+          # @param collector [Rack::WebProfiler::Collector::Definition]
+          # @param collection [Rack::WebProfiler::Model::CollectionRecord]
           def collector_has_panel?(collector, collection)
             collector_data_storage(collector, collection, :show_panel)
             # !collector_panel(collector, collection).nil?
@@ -185,6 +258,12 @@ module Rack
 
           private
 
+          # Get a collector view Context.
+          #
+          # @param collector [Rack::WebProfiler::Collector::Definition]
+          # @param collection [Rack::WebProfiler::Model::CollectionRecord]
+          #
+          # @return [Rack::WebProfiler::View::Context]
           def collector_view_context(collector, collection)
             collectors_view_context[collector.name] ||= begin
               v = WebProfiler::Collector::View.new(collector.template)
@@ -193,6 +272,13 @@ module Rack
             end
           end
 
+          #
+          #
+          # @param collector [Rack::WebProfiler::Collector::Definition]
+          # @param collection [Rack::WebProfiler::Model::CollectionRecord]
+          # @param key [Symbol, String]
+          #
+          # @return
           def collector_data_storage(collector, collection, key = nil)
             return nil unless is_collection_contains_datas_for_collector?(collection, collector)
 
@@ -200,16 +286,31 @@ module Rack
             storage[key] if !key.nil? && storage.has_key?(key)
           end
 
+          # Check if collector is valid.
+          #
+          # @param collector [Rack::WebProfiler::Collector::Definition]
+          #
+          # @return [Boolean]
           def is_valid_collector?(collector)
             !collector.nil? \
               && collector.kind_of?(WebProfiler::Collector::Definition)
           end
 
+          # Check if collection is valid.
+          #
+          # @param collection [Rack::WebProfiler::Model::CollectionRecord]
+          #
+          # @return [Boolean]
           def is_valid_collection?(collection)
             !collection.nil? \
               && collection.kind_of?(WebProfiler::Model::CollectionRecord)
           end
 
+          #
+          # @param collector [Rack::WebProfiler::Collector::Definition]
+          # @param collection [Rack::WebProfiler::Model::CollectionRecord]
+          #
+          # @return [Boolean]
           def is_collection_contains_datas_for_collector?(collection, collector)
             is_valid_collector?(collector) \
               && is_valid_collection?(collection) \
@@ -218,6 +319,9 @@ module Rack
 
           private
 
+          # Get the collectors view context.
+          #
+          # @return [Hash]
           def collectors_view_context
             @collectors_view_context ||= {}
           end
@@ -226,7 +330,10 @@ module Rack
 
       protected
 
+      # View Context.
       class Context
+
+        # Include helpers into the Context.
         include Helpers::Common
         include Helpers::Collector
       end
