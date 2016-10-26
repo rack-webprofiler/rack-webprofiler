@@ -10,7 +10,9 @@ module Rack
       #
       # @return [Sequel::SQLite::Database]
       def database
-        @db ||= Sequel.connect("sqlite://#{db_file_path}", timeout: 50)
+        @db ||= Sequel.connect("sqlite://#{db_file_path}", {
+          single_threaded: true,
+        })
       end
 
       # Remove the database content.
