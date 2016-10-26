@@ -37,7 +37,22 @@ module Rack
       def unregister_collector(collector_class)
         config.collectors.remove_collector collector_class
       end
+
+      def data(k = nil, v = :undefined)
+        @data ||= {}
+
+        return @data if k === nil
+
+        @data[k] = v unless v === :undefined
+        @data[k] if @data.key?(k)
+      end
+
+      def reset_data!
+        @data = {}
+      end
     end
+
+    attr_reader :data
 
     # Initialize
     #
