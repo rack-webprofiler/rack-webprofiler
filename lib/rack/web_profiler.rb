@@ -73,6 +73,8 @@ module Rack
     #
     # @return [Array]
     def call(env)
+      WebProfiler.reset_data!
+
       begin
         request = WebProfiler::Request.new(env)
         env[ENV_RUNTIME_START] = Time.now.to_f
