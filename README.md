@@ -22,7 +22,7 @@ Or install it yourself as:
 
     $ gem install rack-webprofiler
 
-### Rack
+### Usage
 
 ```ruby
 home = lambda { |_env|
@@ -44,18 +44,21 @@ You can specify the temporary directory. It is used to save the SQlite database.
 
 ```ruby
 use Rack::WebProfiler, tmp_dir: File.expand_path("/tmp", __FILE__)
+
+# OR
+
+use Rack::WebProfiler.config do |c|
+  c.tmp_dir = File.expand_path("/tmp", __FILE__)
+end
 ```
-
-## Usage
-
-TODO
-
-HTTP headers `X-RackWebProfiler-Token` `X-RackWebProfiler-Url`.
-
 
 ## Examples
 
 See [the examples](./examples).
+
+## Documentation
+
+See [the documentation](./docs).
 
 ## Development
 
@@ -71,8 +74,8 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/nicola
 
 ## Contributors
 
-* Thomas de Cicco — Design ([@Thomasdc_](https://twitter.com/Thomasdc_))
-* Christophe Massolin — FrontEnd ([@furiouzz](https://github.com/furiouzz))
+* [@Thomasdc_](https://twitter.com/Thomasdc_) — Design
+* [@furiouzz](https://github.com/furiouzz) — FrontEnd
 
 ## License
 

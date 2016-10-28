@@ -7,14 +7,7 @@
   * Create a collector to show informations about CPU usage.
   * Create a collector to list all `.inspect` method calls.
   * Create a collector to list the HTTP calls.
-  * Create a collector for Devise gem.
-  * Create a collector for ActiveRecord.
-  * Create a collector for Sequel.
-  * Create a collector for SQL requests without ActiveRecord.
-  * Create a collector to show the Rails logger informations.
-  * Create a collector to list jobs created with ActiveJob.
   * Create a collector to list the ajax requests.
-  * Have a friendly UI.
   * Catch 500 or exceptions.
 
 
@@ -22,8 +15,6 @@
 
 ### Features
 
-  * Create a Rails request collector.
-  * Create a collector to show which Rails version it is used and the current environment.
 
 
 ## v0.1.0 (WIP)
