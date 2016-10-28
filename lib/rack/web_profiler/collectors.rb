@@ -1,10 +1,8 @@
 module Rack
-
   # Collectors.
   #
   # Container of Collector objects.
   class WebProfiler::Collectors
-
     # Initialize.
     def initialize
       @collectors        = {}
@@ -35,13 +33,10 @@ module Rack
     # @raise [ArgumentError] if `collector_class' is not a Class or is not an instance of Rack::WebProfiler::Collector::DSL
     #   or a collector with this name is already registrered.
     def add_collector(collector_class)
-      if collector_class.is_a? Array
-        return collector_class.each { |c| add_collector(c) }
-      end
+      return collector_class.each { |c| add_collector(c) } if collector_class.is_a? Array
 
-      unless collector_class.is_a? Class
-        raise ArgumentError, "`collector_class' must be a class"
-      end
+
+      raise ArgumentError, "`collector_class' must be a class" unless collector_class.is_a? Class
 
       unless collector_class.included_modules.include?(Rack::WebProfiler::Collector::DSL)
         raise ArgumentError, "#{collector_class.class.name} must be an instance of \"Rack::WebProfiler::Collector::DSL\""
@@ -66,17 +61,10 @@ module Rack
     #
     # @raise [ArgumentError] if `collector_class' is not a Class or if this collector is not registered.
     def remove_collector(collector_class)
-      if collector_class.is_a? Array
-        return collector_class.each { |c| remove_collector(c) }
-      end
+      return collector_class.each { |c| remove_collector(c) } if collector_class.is_a? Array
 
-      unless collector_class.is_a? Class
-        raise ArgumentError, "`collector_class' must be a class"
-      end
-
-      unless @collectors[collector_class]
-        raise ArgumentError, "No collector found with class \“#{collector_class}\""
-      end
+      raise ArgumentError, "`collector_class' must be a class" unless collector_class.is_a? Class
+      raise ArgumentError, "No collector found with class \“#{collector_class}\"" unless @collectors[collector_class]
 
       @collectors.delete(collector_class)
 

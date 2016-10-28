@@ -14,6 +14,12 @@ module Rack
         @template  = template
         @layout    = layout
         @context   = context
+
+        @erb_options = {
+          safe_level: nil,
+          trim_mode:  "<>-",
+          eoutvar:    "@_erbout",
+        }
       end
 
       # Get the result of view rendering.
@@ -26,7 +32,7 @@ module Rack
           templates = [read_template(@template)]
           templates << read_template(@layout) unless @layout.nil?
 
-          content = templates.inject(nil) do |prev, temp|
+          templates.inject(nil) do |prev, temp|
             render(temp, variables) { prev }
           end
         end
@@ -54,26 +60,24 @@ module Rack
         template
       end
 
-      def options
-        @options ||= {
-          :safe_level => nil,
-          :trim_mode  => '<>-',
-          :eoutvar    => '@_erbout',
-        }
-      end
-
+      # Render view.
+      #
+      # @param str [String] view content
+      # @param variables [Hash, Binding] view variables
+      #
+      # @return [String]
+      #
+      # @todo better error when there is an ERB error.
       def render(str, variables = {})
-        opts = options
-
         format_variables(variables).each do |name, value|
           context.instance_variable_set("@#{name}", value)
         end
 
+        erb = ::ERB.new(str, *@erb_options.values_at(:safe_level, :trim_mode, :eoutvar))
+
         context.instance_eval do
-          erb = ::ERB.new(str, *opts.values_at(:safe_level, :trim_mode, :eoutvar))
-          erb.result(binding).sub(/\A\n/, '')
+          erb.result(binding).sub(/\A\n/, "")
         end
-        # @todo better error when there is an ERB error.
       end
 
       # Format variables to inject them into view context.
@@ -84,11 +88,7 @@ module Rack
       def format_variables(v)
         case v
         when Binding
-          h = {}
-          v.eval("instance_variables").each do |k|
-            h[k.to_s.sub(/^@/, '')] = v.eval("instance_variable_get(:#{k})")
-          end
-          h
+          binding_to_hash(v)
         when Hash
           v
         else
@@ -96,12 +96,23 @@ module Rack
         end
       end
 
+      # Returns a [Hash] from a [Binding].
+      #
+      # @param v [Binding]
+      #
+      # @return [Hash]
+      def binding_to_hash(v)
+        h = {}
+        v.eval("instance_variables").each do |k|
+          h[k.to_s.sub(/^@/, "")] = v.eval("instance_variable_get(:#{k})")
+        end
+        h
+      end
+
       # Helpers.
       module Helpers
-
         # Common helpers.
         module Common
-
           def content_for(key, content = nil, &block)
             block ||= proc { |*| content }
             content_blocks[key.to_sym] << capture_later(&block)
@@ -176,9 +187,12 @@ module Rack
           # @yield
           def capture(&block)
             @capture = nil
-            @_erbout, _buf_was = '', @_erbout
+            buf_was  =  @_erbout
+            @_erbout = ""
+
             result = yield
-            @_erbout = _buf_was
+
+            @_erbout = buf_was
             result.strip.empty? && @capture ? @capture : result
           end
 
@@ -195,13 +209,12 @@ module Rack
           #
           # @return [Hash]
           def content_blocks
-            @content_blocks ||= Hash.new {|h,k| h[k] = [] }
+            @content_blocks ||= Hash.new { |h, k| h[k] = [] }
           end
         end
 
         # Collector helpers.
         module Collector
-
           # Get collector status from a collection.
           #
           # @param collector [Rack::WebProfiler::Collector::Definition]
@@ -224,7 +237,7 @@ module Rack
           # @param collector [Rack::WebProfiler::Collector::Definition]
           # @param collection [Rack::WebProfiler::Model::CollectionRecord]
           def collector_tab(collector, collection)
-            return nil unless is_collection_contains_datas_for_collector?(collection, collector)
+            return nil unless collection_contains_datas_for_collector?(collection, collector)
 
             c = collector_view_context(collector, collection)
             c.tab_content
@@ -234,7 +247,7 @@ module Rack
           # @param collector [Rack::WebProfiler::Collector::Definition]
           # @param collection [Rack::WebProfiler::Model::CollectionRecord]
           def collector_panel(collector, collection)
-            return nil unless is_collection_contains_datas_for_collector?(collection, collector)
+            return nil unless collection_contains_datas_for_collector?(collection, collector)
 
             c = collector_view_context(collector, collection)
             c.panel_content
@@ -280,10 +293,10 @@ module Rack
           #
           # @return
           def collector_data_storage(collector, collection, key = nil)
-            return nil unless is_collection_contains_datas_for_collector?(collection, collector)
+            return nil unless collection_contains_datas_for_collector?(collection, collector)
 
             storage = collection.datas[collector.name.to_sym]
-            storage[key] if !key.nil? && storage.has_key?(key)
+            storage[key] if !key.nil? && storage.key?(key)
           end
 
           # Check if collector is valid.
@@ -291,9 +304,9 @@ module Rack
           # @param collector [Rack::WebProfiler::Collector::Definition]
           #
           # @return [Boolean]
-          def is_valid_collector?(collector)
+          def valid_collector?(collector)
             !collector.nil? \
-              && collector.kind_of?(WebProfiler::Collector::Definition)
+              && collector.is_a?(WebProfiler::Collector::Definition)
           end
 
           # Check if collection is valid.
@@ -301,9 +314,9 @@ module Rack
           # @param collection [Rack::WebProfiler::Model::CollectionRecord]
           #
           # @return [Boolean]
-          def is_valid_collection?(collection)
+          def valid_collection?(collection)
             !collection.nil? \
-              && collection.kind_of?(WebProfiler::Model::CollectionRecord)
+              && collection.is_a?(WebProfiler::Model::CollectionRecord)
           end
 
           #
@@ -311,10 +324,10 @@ module Rack
           # @param collection [Rack::WebProfiler::Model::CollectionRecord]
           #
           # @return [Boolean]
-          def is_collection_contains_datas_for_collector?(collection, collector)
-            is_valid_collector?(collector) \
-              && is_valid_collection?(collection) \
-              && collection.datas.has_key?(collector.name.to_sym)
+          def collection_contains_datas_for_collector?(collection, collector)
+            valid_collector?(collector) \
+              && valid_collection?(collection) \
+              && collection.datas.key?(collector.name.to_sym)
           end
 
           private
@@ -327,8 +340,6 @@ module Rack
           end
         end
       end
-
-      protected
 
       # View Context.
       class Context

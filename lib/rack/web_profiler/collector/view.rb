@@ -28,13 +28,11 @@ module Rack
         return nil if @collection.nil?
 
         datas = @collection.datas[@collector.name.to_sym][:datas]
-        return datas[k] if datas.has_key?(k)
+        return datas[k] if datas.key?(k)
 
         default
       end
     end
-
-    protected
 
     class Context
       include WebProfiler::View::Helpers::Common

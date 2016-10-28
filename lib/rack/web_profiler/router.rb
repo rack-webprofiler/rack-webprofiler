@@ -59,8 +59,6 @@ module Rack
         request = @request.dup
         request.env[PATH_INFO] = "/#{path}"
 
-        path_info = Utils.unescape(request.env[PATH_INFO])
-        clean_path_info = Utils.clean_path_info(path_info)
 
         status, headers, body = rf.call(request.env)
         Rack::Response.new(body, status, headers)
