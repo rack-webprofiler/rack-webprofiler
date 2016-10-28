@@ -1,5 +1,5 @@
 module Rack
-  class WebProfiler::Collector::RackCollector
+  class WebProfiler::Collectors::RackCollector
     include Rack::WebProfiler::Collector::DSL
 
     icon <<-'ICON'

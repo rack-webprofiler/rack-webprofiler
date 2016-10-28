@@ -4,6 +4,11 @@ module Rack
   #
   # Container of Collector objects.
   class WebProfiler::Collectors
+    # Collectors
+    autoload :RackCollector,      "rack/web_profiler/collectors/rack_collector"
+    autoload :RequestCollector,   "rack/web_profiler/collectors/request_collector"
+    autoload :RubyCollector,      "rack/web_profiler/collectors/ruby_collector"
+    autoload :TimeCollector,      "rack/web_profiler/collectors/time_collector"
 
     # Initialize.
     def initialize

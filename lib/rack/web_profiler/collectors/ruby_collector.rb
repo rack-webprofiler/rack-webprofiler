@@ -1,5 +1,5 @@
 module Rack
-  class WebProfiler::Collector::RubyCollector
+  class WebProfiler::Collectors::RubyCollector
     include Rack::WebProfiler::Collector::DSL
 
     icon <<-'ICON'

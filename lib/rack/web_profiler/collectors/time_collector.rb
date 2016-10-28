@@ -1,5 +1,5 @@
 module Rack
-  class WebProfiler::Collector::TimeCollector
+  class WebProfiler::Collectors::TimeCollector
     include Rack::WebProfiler::Collector::DSL
 
     icon <<-'ICON'
