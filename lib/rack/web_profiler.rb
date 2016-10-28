@@ -33,10 +33,12 @@ module Rack
       def register_collector(collector_class)
         config.collectors.add_collector collector_class
       end
+      alias register_collectors register_collector
 
       def unregister_collector(collector_class)
         config.collectors.remove_collector collector_class
       end
+      alias unregister_collectors unregister_collector
 
       def data(k = nil, v = :undefined)
         @data ||= {}
