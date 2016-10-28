@@ -14,21 +14,17 @@ module Rack
         response = Rack::WebProfiler::Response.new(request, body, status, headers)
         record   = collect!(request, response)
 
-        return response if !headers[CONTENT_TYPE].nil? and !headers[CONTENT_TYPE].include? "text/html"
-
         @token = record.token
         @url   = WebProfiler::Router.url_for_toolbar(record.token)
-
-        response = Rack::Response.new([], status, headers)
 
         response.header["X-RackWebProfiler-Token"] = @token
         response.header["X-RackWebProfiler-Url"]   = WebProfiler::Router.url_for_profiler(record.token)
 
-        if defined? Rails and body.is_a? ActionDispatch::Response::RackBody
-          body = body.body
-        end
+        return response if !headers[CONTENT_TYPE].nil? and !headers[CONTENT_TYPE].include? "text/html"
 
-        if body.is_a? Array
+        response = Rack::Response.new([], status, response.headers)
+
+        if body.respond_to?(:each)
           body.each { |fragment| response.write inject(fragment) }
         elsif body.is_a? String
           response.write inject(body)
