@@ -71,7 +71,7 @@ module Rack
       #
       # @return [String]
       def url_for_asset(path)
-        "#{@request.script_name}#{BASE_PATH}/assets/#{path}"
+        "#{get_base_path}/assets/#{path}"
       end
 
       # Get url for toobar.
@@ -80,7 +80,7 @@ module Rack
       #
       # @return [String]
       def url_for_toolbar(token)
-        "#{@request.script_name}#{BASE_PATH}/toolbar/#{token}"
+        "#{get_base_path}/toolbar/#{token}"
       end
 
       # Get url for the webprofiler.
@@ -92,14 +92,20 @@ module Rack
       def url_for_profiler(token = nil, panel = nil)
         query = ""
         query = "?panel=#{panel}" unless panel.nil?
-        "#{@request.script_name}#{BASE_PATH}/#{token}#{query}"
+        "#{get_base_path}/#{token}#{query}"
       end
 
       # Get url to clean webprofiler.
       #
       # @return [String]
       def url_for_clean_profiler
-        "#{@request.script_name}#{BASE_PATH}/clean"
+        "#{get_base_path}/clean"
+      end
+
+      private
+
+      def get_base_path
+        "#{@request.env["ORIGINAL_SCRIPT_NAME"]}#{BASE_PATH}"
       end
     end
   end
