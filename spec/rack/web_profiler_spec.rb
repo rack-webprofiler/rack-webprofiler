@@ -12,8 +12,8 @@ describe Rack::WebProfiler do
     status, headers, _body = Rack::WebProfiler.new(app).call(Rack::MockRequest.env_for())
 
     expect(status).to be 200
-    expect(headers["X-RackWebProfiler-Token"]).to be nil
-    expect(headers["X-RackWebProfiler-Url"]).to be nil
+    expect(headers["X-RackWebProfiler-Token"]).not_to be nil
+    expect(headers["X-RackWebProfiler-Url"]).not_to be nil
   end
 
   it "does return the profiler if request html" do
