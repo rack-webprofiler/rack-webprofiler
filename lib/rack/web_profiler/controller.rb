@@ -20,7 +20,6 @@ module Rack
       @collections = Rack::WebProfiler::Model::CollectionRecord.order(Sequel.desc(:created_at))
                                                             .limit(20)
 
-      return json(@collections, 200, {only: [:token, :http_method, :http_status, :url, :ip]}) if prefer_json?
       return json(@collections, to_json_opts: {only: [:token, :http_method, :http_status, :url, :ip]}) if prefer_json?
       erb "panel/index.erb", layout: "panel/layout.erb"
     end
@@ -66,7 +65,7 @@ module Rack
     #
     # @return [Rack::Response]
     def delete
-      Rack::WebProfiler::Model.clean
+      Rack::WebProfiler::Model.clean!
 
       redirect WebProfiler::Router.url_for_profiler
     end

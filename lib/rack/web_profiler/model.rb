@@ -16,7 +16,7 @@ module Rack
       end
 
       # Remove the database content.
-      def clean
+      def clean!
         return unless ::File.exist?(db_file_path)
 
         ::File.delete(db_file_path)
