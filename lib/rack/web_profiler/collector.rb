@@ -24,10 +24,15 @@ module Rack
           # @param icon [String, nil]
           def icon(icon = nil); definition.icon = icon; end
 
-          # Set the name of the {Rack::WebProfiler::Collector}.
+          # Set the identifier of the {Rack::WebProfiler::Collector}.
           #
-          # @param name [String, nil]
-          def collector_name(name = nil); definition.name = name; end
+          # @param identifier [String, nil]
+          def identifier(identifier = nil); definition.identifier = identifier; end
+
+          # Set the label of the {Rack::WebProfiler::Collector}.
+          #
+          # @param label [String, nil]
+          def label(label = nil); definition.label = label; end
 
           #
           def position(position = nil); definition.position = position.to_i; end
@@ -71,7 +76,7 @@ module Rack
       #
       # Collector definition.
       class Definition
-        attr_accessor :icon, :name, :position, :collect, :template, :is_enabled, :klass
+        attr_accessor :icon, :identifier, :label, :position, :collect, :template, :is_enabled, :klass
         attr_reader   :data_storage
 
         # Collect the data who the Collector need.
@@ -193,7 +198,7 @@ module Rack
           def data(k, default = nil)
             return nil if @collection.nil?
 
-            datas = @collection.datas[@collector.name.to_sym][:datas]
+            datas = @collection.datas[@collector.identifier.to_sym][:datas]
             return datas[k] if datas.has_key?(k)
 
             default

@@ -5,7 +5,7 @@ describe Rack::WebProfiler::Config do
     class CustomCollector
       include Rack::WebProfiler::Collector::DSL
 
-      collector_name "custom"
+      identifier "custom"
     end
 
     config = Rack::WebProfiler::Config.new

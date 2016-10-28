@@ -16,14 +16,14 @@ module Rack
       @sorted_collectors = {}
     end
 
-    # Get a collector definition by his name.
+    # Get a collector definition by his identifier.
     #
-    # @param name [String]
+    # @param identifier [String]
     #
     # @return [Rack::WebProfiler::Collector::DSL::Definition, nil]
-    def definition_by_name(name)
-      name = name.to_sym
-      @sorted_collectors[name] unless @sorted_collectors[name].nil?
+    def definition_by_identifier(identifier)
+      identifier = identifier.to_sym
+      @sorted_collectors[identifier] unless @sorted_collectors[identifier].nil?
     end
 
     # Returns all collectors definition.
@@ -38,7 +38,7 @@ module Rack
     # @param collector_class [Array, Class]
     #
     # @raise [ArgumentError] if `collector_class' is not a Class or is not an instance of Rack::WebProfiler::Collector::DSL
-    #   or a collector with this name is already registrered.
+    #   or a collector with this identifier is already registrered.
     def add_collector(collector_class)
       if collector_class.is_a? Array
         return collector_class.each { |c| add_collector(c) }
@@ -54,8 +54,8 @@ module Rack
 
       definition = collector_class.definition
 
-      if definition_by_name(definition.name)
-        raise ArgumentError, "A collector with name \“#{definition.name}\" already exists"
+      if definition_by_identifier(definition.identifier)
+        raise ArgumentError, "A collector with identifier \“#{definition.identifier}\" already exists"
       end
 
       return false unless definition.is_enabled?
@@ -90,12 +90,12 @@ module Rack
 
     private
 
-    # Sort collectors by definition name.
+    # Sort collectors by definition identifier.
     def sort_collectors!
       @sorted_collectors = {}
 
       tmp = @collectors.sort_by { |_klass, definition| definition.position }
-      tmp.each { |_k, v| @sorted_collectors[v.name.to_sym] = v }
+      tmp.each { |_k, v| @sorted_collectors[v.identifier.to_sym] = v }
     end
   end
 end
