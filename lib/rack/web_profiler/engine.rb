@@ -83,7 +83,7 @@ module Rack
           create_record!
           save_collected_datas!
 
-          @record.save
+          @record.save({ transaction: true })
         end
 
         private
