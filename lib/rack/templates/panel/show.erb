@@ -9,11 +9,11 @@
     <% if collector_has_panel?(collector, @collection) %>
     <div class="sidebar__item">
       <div class="sidebar__item-inner">
-        <a href="<%=h WebProfiler::Router.url_for_profiler(@collection.token, collector.name) %>">
+        <a href="<%=h WebProfiler::Router.url_for_profiler(@collection.token, collector.identifier) %>">
           <i class="icn">
             <% unless collector.icon.nil? %><img alt="" src="<%=h collector.icon %>" /><% end %>
           </i>
-          <span><%=h collector.name.capitalize.gsub(/_/, ' ') %></span>
+          <span><%=h collector.label.capitalize %></span>
         </a>
       </div>
     </div>
@@ -21,6 +21,6 @@
   <% end %>
 <% end %>
 
-<div class="rack-webprofiler_collectors_<%=h @collector.name.to_s %>">
+<div class="rack-webprofiler_collectors_<%=h @collector.identifier.to_s %>">
   <%= collector_panel(@collector, @collection) %>
 </div>

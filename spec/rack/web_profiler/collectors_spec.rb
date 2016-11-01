@@ -56,14 +56,13 @@ describe Rack::WebProfiler::Collectors do
 
       icon nil
 
-      collector_name "rack_request"
-      position       3
+      identifier "rack.request"
+      label      "Request"
+      position    3
 
       collect do |request, _response|
         store :request_fullpath,  request.fullpath
       end
-
-      template __FILE__, type: :DATA
     end
 
     collectors = Rack::WebProfiler::Collectors.new
@@ -83,7 +82,7 @@ describe Rack::WebProfiler::Collectors do
   it "returns the asked collector by name" do
     collectors = Rack::WebProfiler::Collectors.new
     collectors.add_collector Rack::WebProfiler::Collectors::TimeCollector
-    definition = collectors.definition_by_name :time
+    definition = collectors.definition_by_identifier :time
 
     expect(definition).to be_a(Rack::WebProfiler::Collector::Definition)
     expect(definition.klass).to be(Rack::WebProfiler::Collectors::TimeCollector)
@@ -95,14 +94,13 @@ describe Rack::WebProfiler::Collectors do
 
       icon nil
 
-      collector_name "custom"
-      position       3
+      identifier "custom"
+      label      "Custom"
+      position  3
 
       collect do |request, _response|
         store :request_fullpath,  request.fullpath
       end
-
-      template __FILE__, type: :DATA
     end
 
     Rack::WebProfiler.register_collector CustomCollector
@@ -120,14 +118,13 @@ describe Rack::WebProfiler::Collectors do
 
       icon nil
 
-      collector_name "other_custom"
-      position       3
+      identifier "other_custom"
+      label      "Other custom"
+      position   3
 
       collect do |request, _response|
         store :request_fullpath,  request.fullpath
       end
-
-      template __FILE__, type: :DATA
     end
 
     Rack::WebProfiler.register_collector CustomCollector
