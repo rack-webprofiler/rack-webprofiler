@@ -174,6 +174,18 @@ module Rack
           @context ||= Context.new
         end
 
+        # Read a template. Returns file content if template is a file path.
+        #
+        # @param template [String] template file path or content
+        #
+        # @return [String]
+        def read_template(template)
+          unless template.empty?
+            return ::File.read(template) if ::File.exist?(template)
+          end
+          template
+        end
+
         # Helpers
         module Helpers
           # @todo comment
