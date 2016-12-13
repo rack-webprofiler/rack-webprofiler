@@ -9,6 +9,8 @@
     <div class="rack-webprofiler__item rack-webprofiler_collectors_<%=h name.to_s %>">
     <% if collector_has_panel?(collector, @collection) %>
       <a href="<%=h WebProfiler::Router.url_for_profiler(@collection.token, name) %>">
+    <% else %>
+      <span class="rack-webprofiler__item-content">
     <% end %>
       <% unless collector.icon.nil? %>
         <i class="icn"><img alt="" src="<%=h collector.icon %>" /></i>
@@ -19,6 +21,8 @@
         <span class="rack-webprofiler__item__status-color <%=h status.to_s %>"></span>
     <% if collector_has_panel?(collector, @collection) %>
       </a>
+    <% else %>
+      </span>
     <% end %>
     </div>
   <% end %>
