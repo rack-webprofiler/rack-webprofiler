@@ -76,6 +76,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/nicola
 
 * [@Thomasdc_](https://twitter.com/Thomasdc_) — Design
 * [@furiouzz](https://github.com/furiouzz) — FrontEnd
+* [@flo-sch](https://github.com/flo-sch) — FrontEnd
 
 ## License
 
