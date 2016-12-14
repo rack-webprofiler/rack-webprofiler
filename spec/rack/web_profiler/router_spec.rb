@@ -52,6 +52,16 @@ describe Rack::WebProfiler::Router do
   #   expect(status).to be 302
   # end
 
+  it "returns profiler assets request" do
+    app = ->(_env) { [200, { "Content-Type" => "text/html" }, "<html><body></body></html>"] }
+    url = Rack::WebProfiler::Router.url_for_asset("css/profiler.css")
+    status, _headers, body = Rack::WebProfiler.new(app).call(Rack::MockRequest.env_for(url))
+
+    expect(status).to be 200
+    # puts body.join("\n")
+    # expect(body).to be ::File.read("")
+  end
+
   it "returns a 404 on unknown profiler route" do
     app = ->(_env) { [200, { "Content-Type" => "text/html" }, "<html><body></body></html>"] }
     url = Rack::WebProfiler::Router.url_for_profiler("unexistantprofilertoken")
