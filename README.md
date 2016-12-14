@@ -3,8 +3,8 @@
 A Rack profiler for web application.
 
 [![Version         ](http://img.shields.io/gem/v/rack-webprofiler.svg)                               ](https://rubygems.org/gems/rack-webprofiler)
-[![Travis CI       ](http://img.shields.io/travis/nicolas-brousse/rack-webprofiler/master.svg)           ](https://travis-ci.org/nicolas-brousse/rack-webprofiler)
-[![Gitter         ](https://img.shields.io/gitter/room/nicolas-brousse/rack-webprofiler.svg)       ](https://gitter.im/nicolas-brousse/rack-webprofiler)
+[![Travis CI       ](http://img.shields.io/travis/rack-webprofiler/rack-webprofiler/master.svg)           ](https://travis-ci.org/nicolas-brousse/rack-webprofiler)
+[![Gitter         ](https://img.shields.io/gitter/room/rack-webprofiler/rack-webprofiler.svg)       ](https://gitter.im/nicolas-brousse/rack-webprofiler)
 
 ## Installation
 
