@@ -15,26 +15,39 @@ module Rack
     autoload :Router,     "rack/web_profiler/router"
     autoload :View,       "rack/web_profiler/view"
 
+    # Classes about Rouge gem customization.
     module Rouge
       autoload :HTMLFormatter, "rack/web_profiler/rouge/html_formatter"
     end
 
-    ENV_RUNTIME_START = 'rack_webprofiler.runtime_start'.freeze
-    ENV_RUNTIME       = 'rack_webprofiler.runtime'.freeze
-    ENV_EXCEPTION     = 'rack_webprofiler.exception'.freeze
+    # Env key constants.
+    ENV_RUNTIME_START = "rack_webprofiler.runtime_start".freeze
+    ENV_RUNTIME       = "rack_webprofiler.runtime".freeze
+    ENV_EXCEPTION     = "rack_webprofiler.exception".freeze
 
     class << self
+      # Configure the WebProfiler.
+      #
+      # @yield the Config object.
+      #
+      # @return [Rack::WebProfiler::Config]
       def config
         @config ||= Config.new
         @config.build!(&Proc.new) if block_given?
         @config
       end
 
+      # Register one or many collectors.
+      #
+      # @param collector_class [Array, Class]
       def register_collector(collector_class)
         config.collectors.add_collector collector_class
       end
       alias register_collectors register_collector
 
+      # Unregister one or many collectors.
+      #
+      # @param collector_class [Array, Class]
       def unregister_collector(collector_class)
         config.collectors.remove_collector collector_class
       end
@@ -106,7 +119,7 @@ module Rack
       request.env[ENV_RUNTIME]   = Time.now.to_f - request.env[ENV_RUNTIME_START]
       request.env[ENV_EXCEPTION] = nil
 
-      unless exception.nil?
+      if !exception.nil?
         request.env[ENV_EXCEPTION] = exception
         WebProfiler::Engine.process_exception(request).finish
       else

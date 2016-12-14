@@ -5,11 +5,11 @@ module Rack
       # Process request.
       #
       # @param request [Rack::WebProfiler::Request]
-      # @param body
-      # @param status
-      # @param headers
+      # @param body [Array, String]
+      # @param status [Integer]
+      # @param headers [Hash]
       #
-      # @return [Rack::Response]
+      # @return [Rack::WebProfiler::Response, Rack::Response]
       def process(request, body, status, headers)
         response = Rack::WebProfiler::Response.new(request, body, status, headers)
         record   = collect!(request, response)

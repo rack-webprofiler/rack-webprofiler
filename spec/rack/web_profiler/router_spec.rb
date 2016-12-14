@@ -6,15 +6,14 @@ describe Rack::WebProfiler::Router do
   it "load the profiler toolbar corectly" do
     app = ->(_env) { [200, { "Content-Type" => "text/html" }, "<html><body></body></html>"] }
     status, headers, _body = Rack::WebProfiler.new(app).call(
-      Rack::MockRequest.env_for()
+      Rack::MockRequest.env_for
     )
 
     expect(status).to be 200
     expect(headers["X-RackWebProfiler-Url"]).not_to be nil
 
-    status, headers, _body = Rack::WebProfiler.new(app).call(
-      Rack::MockRequest.env_for(Rack::WebProfiler::Router.url_for_toolbar(headers["X-RackWebProfiler-Token"]))
-    )
+    url = Rack::WebProfiler::Router.url_for_toolbar(headers["X-RackWebProfiler-Token"])
+    status, headers, _body = Rack::WebProfiler.new(app).call(Rack::MockRequest.env_for(url))
 
     expect(headers["X-RackWebProfiler-Token"]).to be nil
     expect(status).to be 200
@@ -22,7 +21,7 @@ describe Rack::WebProfiler::Router do
 
   it "match profiler /{:token} request" do
     app = ->(_env) { [200, { "Content-Type" => "text/html" }, "<html><body></body></html>"] }
-    status, headers, _body = Rack::WebProfiler.new(app).call(Rack::MockRequest.env_for())
+    status, headers, _body = Rack::WebProfiler.new(app).call(Rack::MockRequest.env_for)
 
     expect(status).to be 200
     expect(headers["X-RackWebProfiler-Token"]).not_to be nil
@@ -36,7 +35,7 @@ describe Rack::WebProfiler::Router do
 
   it "match profiler / request" do
     app = ->(_env) { [200, { "Content-Type" => "text/html" }, "<html><body></body></html>"] }
-    Rack::WebProfiler.new(app).call(Rack::MockRequest.env_for())
+    Rack::WebProfiler.new(app).call(Rack::MockRequest.env_for)
 
     url = Rack::WebProfiler::Router.url_for_profiler
     status, headers, _body = Rack::WebProfiler.new(app).call(Rack::MockRequest.env_for(url))
