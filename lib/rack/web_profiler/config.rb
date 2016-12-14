@@ -6,10 +6,10 @@ module Rack
     attr_accessor :collectors, :tmp_dir
 
     DEFAULT_COLLECTORS = [
-      Rack::WebProfiler::Collector::RackCollector,
-      Rack::WebProfiler::Collector::RequestCollector,
-      Rack::WebProfiler::Collector::RubyCollector,
-      Rack::WebProfiler::Collector::TimeCollector,
+      Rack::WebProfiler::Collectors::RackCollector,
+      Rack::WebProfiler::Collectors::RequestCollector,
+      Rack::WebProfiler::Collectors::RubyCollector,
+      Rack::WebProfiler::Collectors::TimeCollector,
 
     ].freeze
     def initialize

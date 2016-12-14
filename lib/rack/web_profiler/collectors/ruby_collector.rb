@@ -1,13 +1,14 @@
 module Rack
-  class WebProfiler::Collector::RubyCollector
+  class WebProfiler::Collectors::RubyCollector
     include Rack::WebProfiler::Collector::DSL
 
     icon <<-'ICON'
 data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+ICAgICAgICA8dGl0bGU+VHJpYW5nbGUgMTwvdGl0bGU+ICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPiAgICA8ZGVmcz48L2RlZnM+ICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9IkRlc2t0b3AtMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTcxLjAwMDAwMCwgLTEwLjAwMDAwMCkiIGZpbGw9IiM1ODU0NzMiPiAgICAgICAgICAgIDxwYXRoIGQ9Ik04MSwzMCBMNzEsMTUgTDkxLDE1IEw4MSwzMCBaIE05MSwxNCBMNzEsMTQgTDc1LDEwIEw4NywxMCBMOTEsMTQgWiIgaWQ9IlRyaWFuZ2xlLTEiPjwvcGF0aD4gICAgICAgIDwvZz4gICAgPC9nPjwvc3ZnPg==
 ICON
 
-    collector_name "ruby"
-    position       0
+    identifier "ruby"
+    label      "Ruby"
+    position   0
 
     collect do |_request, _response|
       store :ruby_version,      RUBY_VERSION

@@ -43,6 +43,7 @@ module Rack
       def register_collector(collector_class)
         config.collectors.add_collector collector_class
       end
+      alias register_collectors register_collector
 
       # Unregister one or many collectors.
       #
@@ -50,7 +51,23 @@ module Rack
       def unregister_collector(collector_class)
         config.collectors.remove_collector collector_class
       end
+      alias unregister_collectors unregister_collector
+
+      def data(k = nil, v = :undefined)
+        @data ||= {}
+
+        return @data if k === nil
+
+        @data[k] = v unless v === :undefined
+        @data[k] if @data.key?(k)
+      end
+
+      def reset_data!
+        @data = {}
+      end
     end
+
+    attr_reader :data
 
     # Initialize
     #
@@ -69,6 +86,8 @@ module Rack
     #
     # @return [Array]
     def call(env)
+      WebProfiler.reset_data!
+
       begin
         request = WebProfiler::Request.new(env)
         env[ENV_RUNTIME_START] = Time.now.to_f

@@ -278,7 +278,7 @@ module Rack
           #
           # @return [Rack::WebProfiler::View::Context]
           def collector_view_context(collector, collection)
-            collectors_view_context[collector.name] ||= begin
+            collectors_view_context[collector.identifier] ||= begin
               v = WebProfiler::Collector::View.new(collector.template)
               v.result(collector: collector, collection: collection)
               v.context
@@ -295,7 +295,7 @@ module Rack
           def collector_data_storage(collector, collection, key = nil)
             return nil unless collection_contains_datas_for_collector?(collection, collector)
 
-            storage = collection.datas[collector.name.to_sym]
+            storage = collection.datas[collector.identifier.to_sym]
             storage[key] if !key.nil? && storage.key?(key)
           end
 
@@ -319,7 +319,6 @@ module Rack
               && collection.is_a?(WebProfiler::Model::CollectionRecord)
           end
 
-          #
           # @param collector [Rack::WebProfiler::Collector::Definition]
           # @param collection [Rack::WebProfiler::Model::CollectionRecord]
           #
@@ -327,7 +326,7 @@ module Rack
           def collection_contains_datas_for_collector?(collection, collector)
             valid_collector?(collector) \
               && valid_collection?(collection) \
-              && collection.datas.key?(collector.name.to_sym)
+              && collection.datas.key?(collector.identifier.to_sym)
           end
 
           private
