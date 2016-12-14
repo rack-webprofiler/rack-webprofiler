@@ -45,7 +45,7 @@ module Rack
         @context ||= Context.new
       end
 
-      private
+      protected
 
       # Read a template. Returns file content if template is a file path.
       #
