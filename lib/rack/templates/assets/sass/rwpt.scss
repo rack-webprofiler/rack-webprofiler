@@ -217,7 +217,8 @@ body {
       -webkit-user-select: none;
               user-select: none;
 
-      &:hover {
+      &:hover,
+      &.active {
         background-color: $profiler_panel__sidebar_item_hover;
       }
       &.sidebar__item--blank {
