@@ -23,7 +23,10 @@
   * Move collectors into collectors folder instead collector.
   * Cleanup files.
   * Improve tests.
-  * Debug SQLite database stabilty by using a single thread.
+
+### Fixes
+
+ * Debug SQLite database stabilty by using a single thread.
 
 
 ## v0.1.0.beta2
