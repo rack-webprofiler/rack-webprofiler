@@ -11,13 +11,43 @@
   * Catch 500 or exceptions.
 
 
-## v0.2.0
-
-### Features
-
 
 
 ## v0.1.0 (WIP)
+
+### Features
+
+  * Separate DSL `collector_name` in `identifier` and `name` methods.
+  * Start optimizing css.
+  * Improve documentation and code comments.
+  * Move collectors into collectors folder instead collector.
+  * Cleanup files.
+  * Improve tests.
+  * Debug SQLite database stabilty by using a single thread.
+
+
+## v0.1.0.beta2
+
+### Features
+
+  * Create a view class to manage template and create helpers. And
+    cleanup all views.
+  * Remove Sinatra and Rails linked elements (now in separate gems).
+  * Improve stability.
+
+
+## v0.1.0.beta1
+
+### Features
+
+  * Friendly UI.
+  * Improve development environment.
+  * Complete collectors.
+  * Serve toolbar assets dynamically.
+  * Improve tests.
+
+
+## v0.1.0.pre.alpha1
 
 ### Features
 
@@ -27,4 +57,4 @@
   * Create a execution time collector.
   * Create a collector to show which version of ruby it is used.
   * Create a collector to show the Rack request informations.
-  * Create a collector to show the Sinatra request informations.
+  * Create a collector to show which Rack version is used and the current environment.
