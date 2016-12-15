@@ -10,7 +10,6 @@ module Rack
       Rack::WebProfiler::Collectors::RequestCollector,
       Rack::WebProfiler::Collectors::RubyCollector,
       Rack::WebProfiler::Collectors::TimeCollector,
-
     ].freeze
     def initialize
       @collectors = Rack::WebProfiler::Collectors.new
