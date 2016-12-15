@@ -9,14 +9,24 @@
 
 ## Collector DSL methods
 
-### `collector_name`
+### `identifier`
 
-Technical name of the collector.
+Technical identifier of the collector.
 
 **example**
 
 ```ruby
-collector_name "my_collector"
+identifier "my_collector"
+```
+
+### `label`
+
+The label is shown in panel sidebar.
+
+**example**
+
+```ruby
+label "My Collector"
 ```
 
 ### `icon`
@@ -43,8 +53,8 @@ position 2
 
 ### `collect`
 
-Place to collect data to store. It give you access to the {Rack::WebProfiler::Request} and the {Rack::WebProfiler::Response}.  
-Inside you could `store` the datas you want. And you also could set a `status`.  
+Place to collect data to store. It give you access to the {Rack::WebProfiler::Request} and the {Rack::WebProfiler::Response}.
+Inside you could `store` the datas you want. And you also could set a `status`.
 There is `success`, `warning` and `error` has available `status`.
 
 **example**
@@ -112,8 +122,9 @@ class MyCustomCollector
 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=
 ICON
 
-  collector_name "my_collector"
-  position 2
+  identifier "my_collector"
+  label      "My Collector"
+  position   2
 
   collect do |request, response|
     store :url, request.url

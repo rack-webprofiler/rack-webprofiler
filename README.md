@@ -3,15 +3,15 @@
 A Rack profiler for web application.
 
 [![Version         ](http://img.shields.io/gem/v/rack-webprofiler.svg)                               ](https://rubygems.org/gems/rack-webprofiler)
-[![Travis CI       ](http://img.shields.io/travis/rack-webprofiler/rack-webprofiler/master.svg)           ](https://travis-ci.org/nicolas-brousse/rack-webprofiler)
-[![Gitter         ](https://img.shields.io/gitter/room/rack-webprofiler/rack-webprofiler.svg)       ](https://gitter.im/nicolas-brousse/rack-webprofiler)
+[![Travis CI       ](http://img.shields.io/travis/rack-webprofiler/rack-webprofiler/master.svg)           ](https://travis-ci.org/rack-profiler/rack-webprofiler)
+[![Gitter         ](https://img.shields.io/gitter/room/rack-webprofiler/rack-webprofiler.svg)       ](https://gitter.im/rack-webprofiler/rack-webprofiler)
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rack-webprofiler'
+gem "rack-webprofiler"
 ```
 
 And then execute:
