@@ -36,6 +36,19 @@ __END__
 
 <% panel_content do %>
   <div class="block">
+    <h3>Rack informations</h3>
+
+    <table>
+      <tbody>
+        <tr>
+          <th>Version</th>
+          <td><%=h data(:rack_version) %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="block">
     <h3>Env</h3>
     <% if data(:rack_env) && !data(:rack_env).empty? %>
     <table>
