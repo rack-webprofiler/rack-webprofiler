@@ -49,3 +49,9 @@ end
 It's quite simple to create your own collector with the DSL. You have to
 create a new class who include `rack-profiler` [DSL](./DSL.md) then use
 the methods.
+
+
+## HTTP Headers
+
+* `X-RackWebProfiler-Token`: returns the current profiler token.
+* `X-RackWebProfiler-Url`: returns the current profiler url.
