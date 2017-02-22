@@ -13,7 +13,15 @@
 
 
 
-## v0.1.0 (WIP)
+## v0.1.1
+
+### Fixes
+
+  * Debug stylesheets.
+  * Small code cleanup.
+
+
+## v0.1.0
 
 ### Features
 
