@@ -1,7 +1,7 @@
 <div id="rwpt<%=h @token %>" class="rwpt-toolbar" style="display: none"></div>
 <script>
     /*<![CDATA[*/
-    APjs = (function() {
+    RWPjs = (function() {
         "use strict";
         var noop = function() {},
             profilerStorageKey = 'rack-webprofiler/',
@@ -92,23 +92,23 @@
 <script>
     /*<![CDATA[*/
     (function() {
-        APjs.load('rwpt<%=h @token %>', '<%= @url %>', function(xhr, el) {
+        RWPjs.load('rwpt<%=h @token %>', '<%= @url %>', function(xhr, el) {
             el.style.display = 'block';
             return;
 
-            el.style.display = -1 !== xhr.responseText.indexOf('rwpt-toolbarreset') ? 'block' : 'none';
-            if (el.style.display == 'none') {
-                return;
-            }
-            if (APjs.getPreference('toolbar/displayState') == 'none') {
-                document.getElementById('rwptToolbarMainContent-<%=h @token %>').style.display = 'none';
-                document.getElementById('rwptToolbarClearer-<%=h @token %>').style.display = 'none';
-                document.getElementById('rwptMiniToolbar-<%=h @token %>').style.display = 'block';
-            } else {
-                document.getElementById('rwptToolbarMainContent-<%=h @token %>').style.display = 'block';
-                document.getElementById('rwptToolbarClearer-<%=h @token %>').style.display = 'block';
-                document.getElementById('rwptMiniToolbar-<%=h @token %>').style.display = 'none';
-            }
+            // el.style.display = -1 !== xhr.responseText.indexOf('rwpt-toolbarreset') ? 'block' : 'none';
+            // if (el.style.display == 'none') {
+            //     return;
+            // }
+            // if (RWPjs.getPreference('toolbar/displayState') == 'none') {
+            //     document.getElementById('rwptToolbarMainContent-<%=h @token %>').style.display = 'none';
+            //     document.getElementById('rwptToolbarClearer-<%=h @token %>').style.display = 'none';
+            //     document.getElementById('rwptMiniToolbar-<%=h @token %>').style.display = 'block';
+            // } else {
+            //     document.getElementById('rwptToolbarMainContent-<%=h @token %>').style.display = 'block';
+            //     document.getElementById('rwptToolbarClearer-<%=h @token %>').style.display = 'block';
+            //     document.getElementById('rwptMiniToolbar-<%=h @token %>').style.display = 'none';
+            // }
         }, function(xhr) {
             if (xhr.status !== 0) {
                 confirm('An error occurred while loading the web debug toolbar (' + xhr.status + ': ' + xhr.statusText + ').\\n\\nDo you want to open the profiler?') && (window.location = '<%= @url %>');

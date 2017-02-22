@@ -53,6 +53,12 @@ module Rack
       end
       alias unregister_collectors unregister_collector
 
+      # Data container.
+      #
+      # @param key [String, Symbol, nil]
+      # @param value
+      #
+      # @return
       def data(k = nil, v = :undefined)
         @data ||= {}
 
@@ -62,6 +68,7 @@ module Rack
         @data[k] if @data.key?(k)
       end
 
+      # Reset data container.
       def reset_data!
         @data = {}
       end
@@ -69,7 +76,7 @@ module Rack
 
     attr_reader :data
 
-    # Initialize
+    # Initialize.
     #
     # @param app [Proc]
     # @option tmp_dir [String]
@@ -80,7 +87,7 @@ module Rack
       WebProfiler.config(&Proc.new) if block_given?
     end
 
-    # Call
+    # Call.
     #
     # @param env [Hash]
     #
