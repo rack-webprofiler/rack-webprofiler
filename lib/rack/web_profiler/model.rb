@@ -22,9 +22,7 @@ module Rack
         def clean!
           return unless ::File.exist?(db_file_path)
 
-          ::File.delete(db_file_path)
-          @db = nil
-          @db_file_path = nil
+          CollectionRecord.truncate
         end
 
         private

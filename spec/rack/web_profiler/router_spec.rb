@@ -44,13 +44,13 @@ describe Rack::WebProfiler::Router do
     expect(headers["X-RackWebProfiler-Token"]).to be nil
   end
 
-  # it "match profiler /clean request" do
-  #   app = lambda { |env| [200, {"Content-Type" => "text/html"}, "<html><body></body></html>"] }
-  #   url = Rack::WebProfiler::Router.url_for_clean_profiler
-  #   status, headers, body = Rack::WebProfiler.new(app).call(Rack::MockRequest.env_for(url))
-  #   expect(headers["X-RackWebProfiler-Token"]).to be nil
-  #   expect(status).to be 302
-  # end
+  it "match profiler /clean request" do
+    app = lambda { |env| [200, {"Content-Type" => "text/html"}, "<html><body></body></html>"] }
+    url = Rack::WebProfiler::Router.url_for_clean_profiler
+    status, headers, body = Rack::WebProfiler.new(app).call(Rack::MockRequest.env_for(url))
+    expect(headers["X-RackWebProfiler-Token"]).to be nil
+    expect(status).to be 302
+  end
 
   it "returns profiler assets request" do
     app = ->(_env) { [200, { "Content-Type" => "text/html" }, "<html><body></body></html>"] }
