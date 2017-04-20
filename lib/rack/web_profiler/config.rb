@@ -1,4 +1,5 @@
 require "fileutils"
+require "tmpdir"
 
 module Rack
   # Config
@@ -11,6 +12,8 @@ module Rack
       Rack::WebProfiler::Collectors::RubyCollector,
       Rack::WebProfiler::Collectors::TimeCollector,
     ].freeze
+
+    # Initialize Config.
     def initialize
       @collectors = Rack::WebProfiler::Collectors.new
 
