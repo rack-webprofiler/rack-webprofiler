@@ -73,40 +73,34 @@ module Rack
         attr_reader :record
 
         def initialize(request, response)
-          @collectors = {}
-          @request    = request.clone.freeze
-          @response   = response.clone.freeze
-          @record     = nil
+          @record = new_record(request.clone.freeze, response.clone.freeze)
         end
 
         def save!
-          create_record!
-          save_collected_datas!
-
           @record.save({ transaction: true })
         end
 
         private
 
-        def create_record!
-          @record ||= WebProfiler::Model::CollectionRecord.create({
-            url:           @request.url,
-            ip:            @request.ip,
-            http_method:   @request.request_method,
-            http_status:   @response.status,
-            content_type:  @response.content_type,
-            datas:         {},
+        def new_record(request, response)
+          WebProfiler::Model::CollectionRecord.new({
+            url:          request.url,
+            ip:           request.ip,
+            http_method:  request.request_method,
+            http_status:  response.status,
+            content_type: response.content_type,
+            datas:        collect_datas(request, response),
           })
         end
 
-        def save_collected_datas!
+        def collect_datas(request, response)
           datas = {}
 
           Rack::WebProfiler.config.collectors.all.each do |name, definition|
-            datas[name.to_sym] = definition.collect!(@request, @response).to_h
+            datas[name.to_sym] = definition.collect!(request, response).to_h
           end
 
-          @record.datas = datas
+          datas
         end
       end
     end
