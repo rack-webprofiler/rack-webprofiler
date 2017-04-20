@@ -12,20 +12,10 @@ ICON
 
     collect do |request, _response|
       store :rack_version, Rack.release
-      store :rack_env,     hash_stringify_values(request.env)
+      store :rack_env,     Rack::WebProfiler::Utils.hash_stringify_values(request.env)
     end
 
     template __FILE__, type: :DATA
-
-    class << self
-      def hash_stringify_values(hash)
-        return {} unless hash.kind_of?(Hash)
-        hash.collect do |k,v|
-          v = v.inspect unless v.kind_of?(String)
-          [k, v]
-        end
-      end
-    end
   end
 end
 

@@ -13,6 +13,7 @@ module Rack
     autoload :Response,   "rack/web_profiler/response"
     autoload :Request,    "rack/web_profiler/request"
     autoload :Router,     "rack/web_profiler/router"
+    autoload :Utils,      "rack/web_profiler/utils"
     autoload :View,       "rack/web_profiler/view"
 
     # Classes about Rouge gem customization.

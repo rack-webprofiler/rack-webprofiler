@@ -17,7 +17,7 @@ ICON
       store :request_cookies,   request.cookies
       store :request_get,       request.GET
       store :request_post,      request_post(request)
-      store :request_session,   hash_stringify_values(request.session)
+      store :request_session,   Rack::WebProfiler::Utils.hash_stringify_values(request.session)
       store :request_cookies,   request.cookies
       store :request_body,      request.body_string
       store :request_mediatype, request.media_type
@@ -43,11 +43,6 @@ ICON
         request.POST if request.POST && !request.POST.empty?
       rescue Exception
         nil
-      end
-
-      def hash_stringify_values(hash)
-        return {} unless hash.kind_of?(Hash)
-        hash.collect {|k,v| [k, v.to_s]}
       end
     end
   end
