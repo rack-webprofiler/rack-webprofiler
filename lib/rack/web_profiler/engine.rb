@@ -78,6 +78,8 @@ module Rack
 
         def save!
           @record.save({ transaction: true })
+        rescue => e
+          # @todo raise_if_debug WebProfiler::RuntimeError, "Error while processing to save datas", e.backtrace
         end
 
         private
@@ -97,7 +99,11 @@ module Rack
           datas = {}
 
           Rack::WebProfiler.config.collectors.all.each do |name, definition|
-            datas[name.to_sym] = definition.collect!(request, response).to_h
+            begin
+              datas[name.to_sym] = definition.collect!(request, response).to_h
+            rescue => e
+              # @todo raise_if_debug WebProfiler::RuntimeError, "Error while collecting datas of collector '#{name}'"
+            end
           end
 
           datas

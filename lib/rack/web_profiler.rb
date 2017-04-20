@@ -21,6 +21,9 @@ module Rack
       autoload :HTMLFormatter, "rack/web_profiler/rouge/html_formatter"
     end
 
+    # Exceptions
+    class RuntimeError < ::RuntimeError; end
+
     # Env key constants.
     ENV_RUNTIME_START = "rack_webprofiler.runtime_start".freeze
     ENV_RUNTIME       = "rack_webprofiler.runtime".freeze
