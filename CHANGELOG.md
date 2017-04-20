@@ -11,6 +11,13 @@
   * Catch 500 or exceptions.
 
 
+## v0.1.2
+
+### Fixes
+
+  * Optimize the process of saving collected datas.
+  * Truncate table instead delete db file (#31).
+  * Small code cleanup.
 
 
 ## v0.1.1
@@ -34,7 +41,7 @@
 
 ### Fixes
 
- * Debug SQLite database stabilty by using a single thread.
+  * Debug SQLite database stabilty by using a single thread.
 
 
 ## v0.1.0.beta2
