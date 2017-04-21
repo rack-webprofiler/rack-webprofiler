@@ -87,7 +87,7 @@ module Rack
         # @return [Rack::WebProfiler::Collector::DSL::DataStorage]
         def collect!(request, response)
           args = [request, response]
-          @data_storage = Docile.dsl_eval(DataStorage.new, args.take(collect.arity), &collect)
+          @data_storage = Docile.dsl_eval(DataStorage.new, *args.take(collect.arity), &collect)
         end
 
         # Is the collector enabled.
