@@ -11,6 +11,16 @@
   * Catch 500 or exceptions.
 
 
+## v0.1.3
+
+### Fixes
+
+  * Do request and response optional on DSL for collect method (#34).
+  * Create a method to reset collectors list.
+  * Debug `erb` method of Controller.
+  * Small code cleanup.
+
+
 ## v0.1.2
 
 ### Fixes
