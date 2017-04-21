@@ -48,8 +48,10 @@ module Rack
       #
       # @param request [Rack::WebProfiler::Request]
       # @param response [Rack::Response]
+      #
+      # @return [WebProfiler::Model::CollectionRecord]
       def collect!(request, response)
-        processor = Processor.new(request, response)
+        processor = Processor.new(request.clone.freeze, response.clone.freeze)
         processor.save!
 
         processor.record
@@ -73,7 +75,7 @@ module Rack
         attr_reader :record
 
         def initialize(request, response)
-          @record = new_record(request.clone.freeze, response.clone.freeze)
+          @record = new_record(request, response)
         end
 
         def save!

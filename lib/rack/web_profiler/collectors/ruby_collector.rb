@@ -10,7 +10,7 @@ ICON
     label      "Ruby"
     position   0
 
-    collect do |_request, _response|
+    collect do
       store :ruby_version,      RUBY_VERSION
       store :ruby_patchlevel,   RUBY_PATCHLEVEL
       store :ruby_release_date, RUBY_RELEASE_DATE

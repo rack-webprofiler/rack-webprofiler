@@ -10,7 +10,7 @@ ICON
     label      "Time"
     position   3
 
-    collect do |request, _response|
+    collect do |request|
       runtime = request.env[WebProfiler::ENV_RUNTIME] * 1000.0
 
       store :runtime, runtime

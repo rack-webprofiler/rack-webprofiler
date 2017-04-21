@@ -10,7 +10,7 @@ ICON
     label      "Rack"
     position   1
 
-    collect do |request, _response|
+    collect do |request|
       store :rack_version, Rack.release
       store :rack_env,     Rack::WebProfiler::Utils.hash_stringify_values(request.env)
     end
