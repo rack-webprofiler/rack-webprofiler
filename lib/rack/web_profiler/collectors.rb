@@ -11,8 +11,7 @@ module Rack
 
     # Initialize.
     def initialize
-      @collectors        = {}
-      @sorted_collectors = {}
+      reset!
     end
 
     # Get a collector definition by his identifier.
@@ -75,6 +74,12 @@ module Rack
       @collectors.delete(collector_class)
 
       sort_collectors!
+    end
+
+    # Reset collecotrs.
+    def reset!
+      @collectors        = {}
+      @sorted_collectors = {}
     end
 
     private

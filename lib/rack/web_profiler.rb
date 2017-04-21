@@ -41,6 +41,11 @@ module Rack
         @config
       end
 
+      # Reset collectors.
+      def reset_collectors!
+        config.collectors.reset!
+      end
+
       # Register one or many collectors.
       #
       # @param collector_class [Array, Class]
