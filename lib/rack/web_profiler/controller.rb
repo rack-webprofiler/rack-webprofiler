@@ -127,12 +127,10 @@ module Rack
       # @return [Rack::Response]
       #
       # @private
-      def erb(path, layout: nil, variables: nil, status: 200)
+      def erb(path, layout: nil, variables: binding, status: 200)
         v = WebProfiler::View.new(path, layout: layout)
 
-        variables ||= binding
-
-        Rack::Response.new(v.result(variables), status, {
+        Rack::Response.new(v.result(variables) || "", status, {
           "Content-Type" => "text/html",
         })
       end
