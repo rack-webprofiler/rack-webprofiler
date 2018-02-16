@@ -5,6 +5,7 @@ A Rack profiler for web application.
 [![Version         ](http://img.shields.io/gem/v/rack-webprofiler.svg)                               ](https://rubygems.org/gems/rack-webprofiler)
 [![Travis CI       ](http://img.shields.io/travis/rack-webprofiler/rack-webprofiler/master.svg)           ](https://travis-ci.org/rack-webprofiler/rack-webprofiler)
 [![Gitter         ](https://img.shields.io/gitter/room/rack-webprofiler/rack-webprofiler.svg)       ](https://gitter.im/rack-webprofiler/rack-webprofiler)
+[![Open Source Helpers](https://www.codetriage.com/rack-webprofiler/rack-webprofiler/badges/users.svg)](https://www.codetriage.com/rack-webprofiler/rack-webprofiler)
 
 ## Installation
 
